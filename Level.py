@@ -81,7 +81,7 @@ class Level:
         self.Q.plotMap()
 
     def getHeightAt(self, x, z):
-        return self.heightmap[(x - area[0], z - area[1])]
+        return self.heightmap[(x - self.area[0], z - self.area[1])]
 
     def setBlock(self, x, y, z, block):
         if self.redo_flag:
@@ -127,6 +127,7 @@ class Level:
         for block in self.redo_blocks:
             x, y, z = block[0]
             self.setBlock(x, y, z, block[1])
+        self.flush()
         self.redo_flag = True
 
 
