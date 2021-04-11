@@ -1,0 +1,9 @@
+TAG_Compound: {2 Entries}
+{
+	TAG_Compound('Properties'): {2 Entries}
+	{
+		TAG_String('waterlogged'): false
+		TAG_String('type'): double
+	}
+	TAG_String('Name'): minecraft:stone_brick_slab
+}
