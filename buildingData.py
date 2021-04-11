@@ -2,7 +2,7 @@ from worldLoader import WorldSlice
 from nbt import *
 import interfaceUtils
 import time
-
+import numpy as np
 
 def writeData(level, sPos, ePos, filename="sample.txt"):
     s = sPos
@@ -95,6 +95,38 @@ class buildingData:
         self.level.flush()
         self.level.redo_flag=True
 
+    def getBuildingData(self):
+        size_x =0
+        size_y =0
+        size_z= 0
+        for block in self.blocks:
+            data = block.split(" ")
+            size_x = int(data[0])
+            size_y = int(data[1])
+            size_z = int(data[2])
+
+        blockList= [[[0 for _ in range(size_x+1)] for _ in range(size_z+1)] for _ in range(size_y+1)] #Block ID list shape[y][z][x]
+        IDtoName ={}
+        NametoID ={}
+        index = -1
+        for block in self.blocks:
+            data = block.split(" ")
+            _x = int(data[0])
+            _y = int(data[1])
+            _z = int(data[2])
+            if data[3] not in NametoID :
+                index +=1
+                IDtoName[index] = data[3]
+                NametoID[data[3]] = index
+
+            blockList[_y][_z][_x]= NametoID[data[3]]
+
+        # print("%d %d %d" % (size_x,size_z,size_y))
+        # blockArr = np.array(blockList)
+        # y,z,x = blockArr.shape
+        return blockList,IDtoName,NametoID
+
+
 if __name__ == "__main__":
     from Level import *
     level = Level(USE_BATCHING=50)
@@ -109,4 +141,6 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    writeData(level, (172,4,-3), (182,10,5), filename="house.txt")
+    # writeData(level, (172,4,-3), (182,10,5), filename="house.txt")
+    b = buildingData(level,"house.txt")
+    b.getBuildingData()
