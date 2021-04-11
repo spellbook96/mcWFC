@@ -1,0 +1,57 @@
+NBTFile: {6 Entries}
+{
+	TAG_String('author'): MCEdit-Unified v1.5.6.0
+	TAG_Int('DataVersion'): 1
+	TAG_List('size'): [3 TAG_Int(s)]
+	{
+		TAG_Int: 1
+		TAG_Int: 3
+		TAG_Int: 1
+	}
+	TAG_List('blocks'): [3 TAG_Compound(s)]
+	{
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 0
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 0
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 0
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 0
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 0
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 0
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+	}
+	TAG_List('palette'): [1 TAG_Compound(s)]
+	{
+		TAG_Compound: {2 Entries}
+		{
+			TAG_String('Name'): minecraft:log
+			TAG_Compound('Properties'): {2 Entries}
+			{
+				TAG_String('variant'): spruce
+				TAG_String('axis'): y
+			}
+		}
+	}
+	TAG_List('entities'): [0 TAG_Byte(s)]
+}

@@ -1,0 +1,327 @@
+NBTFile: {6 Entries}
+{
+	TAG_String('author'): MCEdit-Unified v1.5.6.0
+	TAG_Int('DataVersion'): 1
+	TAG_List('size'): [3 TAG_Int(s)]
+	{
+		TAG_Int: 9
+		TAG_Int: 3
+		TAG_Int: 1
+	}
+	TAG_List('blocks'): [27 TAG_Compound(s)]
+	{
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 0
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 0
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 0
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 0
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 0
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 0
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 1
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 1
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 2
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 1
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 3
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 1
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 1
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 2
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 2
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 2
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 3
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 2
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 1
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 3
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 2
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 3
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 3
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 3
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 1
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 4
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 2
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 4
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 3
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 4
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 1
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 5
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 2
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 5
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 3
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 5
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 1
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 6
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 2
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 6
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 3
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 6
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 1
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 7
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 2
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 7
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 3
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 7
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 1
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 8
+				TAG_Int: 0
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 2
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 8
+				TAG_Int: 1
+				TAG_Int: 0
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_Int('state'): 3
+			TAG_List('pos'): [3 TAG_Int(s)]
+			{
+				TAG_Int: 8
+				TAG_Int: 2
+				TAG_Int: 0
+			}
+		}
+	}
+	TAG_List('palette'): [4 TAG_Compound(s)]
+	{
+		TAG_Compound: {2 Entries}
+		{
+			TAG_String('Name'): minecraft:log
+			TAG_Compound('Properties'): {2 Entries}
+			{
+				TAG_String('variant'): spruce
+				TAG_String('axis'): y
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_String('Name'): minecraft:leaves
+			TAG_Compound('Properties'): {3 Entries}
+			{
+				TAG_String('variant'): birch
+				TAG_String('check_decay'): true
+				TAG_String('decayable'): false
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_String('Name'): minecraft:nether_brick_fence
+			TAG_Compound('Properties'): {4 Entries}
+			{
+				TAG_String('west'): false
+				TAG_String('east'): false
+				TAG_String('north'): false
+				TAG_String('south'): false
+			}
+		}
+		TAG_Compound: {2 Entries}
+		{
+			TAG_String('Name'): minecraft:stone_slab
+			TAG_Compound('Properties'): {2 Entries}
+			{
+				TAG_String('variant'): brick
+				TAG_String('half'): bottom
+			}
+		}
+	}
+	TAG_List('entities'): [0 TAG_Byte(s)]
+}
