@@ -5,9 +5,10 @@ import interfaceUtils
 
 
 class nbt_reader:
-    def __init__(self):
+    def __init__(self,filename=""):
         self.pal = []
         self.pos = []
+        self.load(filename)
 
     def load(self, filename=None):
         self.fn = filename
@@ -68,6 +69,18 @@ class nbt_reader:
             i += 1
         self.flush()
 
+    def save(self,filename="nbtBuilding.txt"):
+        fn = filename
+        i=0
+        with open(fn, 'w') as f:
+            for postion in self.pos:
+                x, y, z = postion
+                x = int(x)
+                y = int(y)
+                z = int(z)
+                f.write("%d %d %d %s\n" %(x,y,z,self.pal[i]))
+
+
     def setBlock(self, x, y, z, block):
         interfaceUtils.placeBlockBatched(x, y, z, block, 100)
 
@@ -93,3 +106,8 @@ class nbt_reader:
     def print(self):
         with open("nbt_printout.txt","w") as f:
             f.write(self.nbtfile.pretty_tree())
+
+
+if __name__ == "__main__":
+    nbt = nbt_reader("./nbt/small.nbt")
+    nbt.save("small.txt")

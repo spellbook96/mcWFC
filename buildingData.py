@@ -33,14 +33,14 @@ def writeData(level, sPos, ePos, filename="sample.txt"):
                         cnt += 1
                         continue
 
-                    f.write(str(x-s[0])+" "+str(y-s[1])+" "+str(z-s[2]) + " ")
+                    f.write(str(x-s[0])+" "+str(y-s[1])+" "+str(z-s[2])+ " ")
                     f.write(name)
 
                     try:
                         tmp = block["Properties"]
-                        f.write(" [")
+                        f.write("[")
                         for tag in block["Properties"]:
-                            f.write(tag+"="+str(block["Properties"][tag]))
+                            f.write(tag+"="+str(block["Properties"][tag])+",")
                         f.write("]")
                         bcnt +=1
                     except:
@@ -61,7 +61,8 @@ class buildingData:
 
     def build(self, x, y, z):
         print("-------------------------------------------")
-        print("building " + self.fn)
+        # print("building " + self.fn)
+        print("building " + self.fn +" at (%d %d %d)" %(x,y,z))
         # begin_time = time()
         self.st = [x, y, z]
         for block in self.blocks:
@@ -93,3 +94,19 @@ class buildingData:
             self.level.setBlock(_x+x, _y+y, _z+z, "air")
         self.level.flush()
         self.level.redo_flag=True
+
+if __name__ == "__main__":
+    from Level import *
+    level = Level(USE_BATCHING=50)
+
+    area = level.getBuildArea()
+    x_start = area[0]
+    z_start = area[1]
+    x_size = area[2]
+    z_size = area[3]
+    x_end = x_start + x_size
+    z_end = z_start + z_size
+    x_center = int((x_start + x_end) /2)
+    z_center = int((z_start + z_end) /2)
+
+    writeData(level, (172,4,-3), (182,10,5), filename="house.txt")
