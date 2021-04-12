@@ -96,7 +96,8 @@ class Level:
         else:
             interfaceUtils.setBlock(x, y, z, block)
 
-    def setBlockID(self, x, y, z, blockid, data):
+    def setBlockID(self, x, y, z, blockid, data=100):
+        
         bid = str(blockid) + "," + str(data)
         if bid in self.id_dict:
             try:
@@ -117,9 +118,10 @@ class Level:
 
     def flush(self, batch=100):
         self.redo_flag = False
-        batch = self.USE_BATCHING
-        for i in range(batch):
-            self.setBlock(0, 100, 0, "air")
+        # batch = self.USE_BATCHING
+        # for i in range(batch):
+        #     self.setBlock(0, 100, 0, "air")
+        interfaceUtils.sendBlocks()
         self.redo_flag = True
 
     def redo(self):
