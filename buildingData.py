@@ -109,6 +109,7 @@ class buildingData:
         IDtoName ={}
         NametoID ={}
         index = -1
+        PList = []
         for block in self.blocks:
             data = block.split(" ")
             _x = int(data[0])
@@ -118,13 +119,14 @@ class buildingData:
                 index +=1
                 IDtoName[index] = data[3]
                 NametoID[data[3]] = index
+                PList.append(index)
 
             blockList[_y][_z][_x]= NametoID[data[3]]
 
         # print("%d %d %d" % (size_x,size_z,size_y))
         # blockArr = np.array(blockList)
         # y,z,x = blockArr.shape
-        return blockList,IDtoName,NametoID
+        return blockList,PList,IDtoName,NametoID
 
 
 if __name__ == "__main__":
