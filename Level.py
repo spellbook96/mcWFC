@@ -23,7 +23,7 @@ import json
 
 
 class Level:
-    def __init__(self, USE_BATCHING=100):
+    def __init__(self, USE_BATCHING=2000):
         print("initializing")
         begin_time = time()
         self.area = (0, 0, 128, 128)  # default build area
