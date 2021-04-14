@@ -1,7 +1,6 @@
 from worldLoader import WorldSlice
 from nbt import *
 import interfaceUtils
-import time
 import numpy as np
 
 def writeData(level, sPos, ePos, filename="sample.txt"):
@@ -66,6 +65,7 @@ class buildingData:
         print("-------------------------------------------")
         # print("building " + self.fn)
         print("building " + self.fn +" at (%d %d %d)" %(x,y,z))
+        from time import time
         begin_time = time()
         self.st = [x, y, z]
         for block in self.blocks:
