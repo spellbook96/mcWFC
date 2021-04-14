@@ -53,9 +53,12 @@ def writeData(level, sPos, ePos, filename="sample.txt"):
 
 class buildingData:
     def __init__(self,level, filename=""):
-        self.fn = filename
-        f = open(self.fn)
-        self.blocks = f.read().splitlines()
+        if filename == "":
+            pass
+        else:
+            self.fn = filename
+            f = open(self.fn)
+            self.blocks = f.read().splitlines()
         self.st = []
         self.level = level
 
@@ -79,6 +82,10 @@ class buildingData:
         end_time = time()
         run_time = end_time - begin_time
         print ("runtime: %.2f s" % run_time)
+
+    def catch(self,sPos, ePos,filename="temp"):
+        writeData(self.level,sPos,ePos,filename=filename)
+        self.__init__(self.level,filename=filename)
 
     def clear(self, x=0, y=0, z=0):
         self.level.redo_flag=False
@@ -144,9 +151,11 @@ if __name__ == "__main__":
     z_center = int((z_start + z_end) /2)
 
     # writeData(level, (-95,65,-312), (-42,136,-224), filename="palace.txt")
-    b = buildingData(level,"palace.txt")
-    b.build(x_start,4,z_start)
-
+    # b = buildingData(level,"palace.txt")
+    # b.build(x_start,4,z_start)
+    b = buildingData(level)
+    b.catch((358,26,65),(360,30,80))
+    b.build(343,3,82)
     import time
 
     time.sleep(10)
