@@ -63,7 +63,7 @@ class buildingData:
         print("-------------------------------------------")
         # print("building " + self.fn)
         print("building " + self.fn +" at (%d %d %d)" %(x,y,z))
-        # begin_time = time()
+        begin_time = time()
         self.st = [x, y, z]
         for block in self.blocks:
             data = block.split(" ")
@@ -75,10 +75,10 @@ class buildingData:
 
         self.level.flush()
 
-        # # Calculate run time
-        # end_time = time()
-        # run_time = end_time - begin_time
-        # print ("runtime: %.2f s" % run_time)
+        # Calculate run time
+        end_time = time()
+        run_time = end_time - begin_time
+        print ("runtime: %.2f s" % run_time)
 
     def clear(self, x=0, y=0, z=0):
         self.level.redo_flag=False
@@ -131,7 +131,7 @@ class buildingData:
 
 if __name__ == "__main__":
     from Level import *
-    level = Level(USE_BATCHING=50)
+    level = Level(USE_BATCHING=1000)
 
     area = level.getBuildArea()
     x_start = area[0]
@@ -143,6 +143,12 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    # writeData(level, (172,4,-3), (182,10,5), filename="house.txt")
-    b = buildingData(level,"house.txt")
-    b.getBuildingData()
+    # writeData(level, (-95,65,-312), (-42,136,-224), filename="palace.txt")
+    b = buildingData(level,"palace.txt")
+    b.build(x_start,4,z_start)
+
+    import time
+
+    time.sleep(10)
+    print("redo")
+    level.redo()
