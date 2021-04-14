@@ -134,27 +134,6 @@ class Level:
 
 
 if __name__ == "__main__":
-    # area = (0, 0, 128, 128)  # default build area
-    # USE_BATCHING = True
-    # buildArea = interfaceUtils.requestBuildArea()
-    # if buildArea != -1:
-    #     x1 = buildArea["xFrom"]
-    #     z1 = buildArea["zFrom"]
-    #     x2 = buildArea["xTo"]
-    #     z2 = buildArea["zTo"]
-    #     # print(buildArea)
-    #     area = (x1, z1, x2-x1, z2-z1)
-
-    # print("Build area is at position %s, %s with size %s, %s" % area)
-    # worldSlice = WorldSlice(area)
-    # heightmap = mapUtils.calcGoodHeightmap(worldSlice)
-
-    # x_start =area[0]
-    # z_start =area[1]
-    # x_size =area[2]
-    # z_size =area[3]
-    # x_end = x_start + x_size
-    # z_end = z_start + z_size
 
     level = Level(USE_BATCHING=2)
 
