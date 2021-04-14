@@ -1,5 +1,5 @@
 from Level import *
-level = Level(USE_BATCHING=50)
+level = Level(USE_BATCHING=2000)
 
 area = level.getBuildArea()
 x_start = area[0]
@@ -19,6 +19,6 @@ b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
 
 import time
 
-time.sleep(30)
+time.sleep(10)
 print("redo")
 level.redo()
