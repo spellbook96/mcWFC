@@ -43,8 +43,8 @@ class Level:
         self.calculate_gradient()
         self.Q = Quadtree(self)
 
-        self.redo_flag = True
-        self.redo_blocks = []
+        self.undo_flag = True
+        self.undo_blocks = []
         self.tmp = []
         self.id_dict = {}
         f = open("id_dict.json", "r", encoding="utf-8")
@@ -84,9 +84,9 @@ class Level:
         return self.heightmap[(x - self.area[0], z - self.area[1])]
 
     def setBlock(self, x, y, z, block):
-        if self.redo_flag:
+        if self.undo_flag:
             tmp = self.getBlockAt(x, y, z)
-            self.redo_blocks.append([[x, y, z], tmp])
+            self.undo_blocks.append([[x, y, z], tmp])
 
         x = int(x)
         y = int(y)
@@ -117,25 +117,25 @@ class Level:
                 f.write("id=%s,data=%s\n" % (blockid, data))
 
     def flush(self, batch=100):
-        self.redo_flag = False
+        self.undo_flag = False
         # batch = self.USE_BATCHING
         # for i in range(batch):
         #     self.setBlock(0, 100, 0, "air")
         interfaceUtils.sendBlocks()
-        self.redo_flag = True
+        self.undo_flag = True
 
-    def redo(self):
-        self.redo_flag = False
-        for block in self.redo_blocks:
+    def undo(self):
+        self.undo_flag = False
+        for block in self.undo_blocks:
             x, y, z = block[0]
             self.setBlock(x, y, z, block[1])
         self.flush()
-        self.redo_flag = True
+        self.undo_flag = True
 
 
 if __name__ == "__main__":
 
-    level = Level(USE_BATCHING=2)
+    level = Level(USE_BATCHING=2000)
 
     area = level.getBuildArea()
     x_start = area[0]
@@ -161,8 +161,8 @@ if __name__ == "__main__":
     import time
 
     time.sleep(10)
-    print("redo")
-    level.redo()
+    print("undo")
+    level.undo()
 
     # level.plotMap()
 

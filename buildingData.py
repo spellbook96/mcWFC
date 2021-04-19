@@ -88,7 +88,7 @@ class buildingData:
         self.__init__(self.level,filename=filename)
 
     def clear(self, x=0, y=0, z=0):
-        self.level.redo_flag=False
+        self.level.undo_flag=False
         if(x == 0 and y == 0 and z == 0):
             x = self.st[0]
             y = self.st[1]
@@ -100,7 +100,7 @@ class buildingData:
             _z = int(data[2])
             self.level.setBlock(_x+x, _y+y, _z+z, "air")
         self.level.flush()
-        self.level.redo_flag=True
+        self.level.undo_flag=True
 
     def getBuildingData(self):
         size_x =0
@@ -159,5 +159,5 @@ if __name__ == "__main__":
     import time
 
     time.sleep(10)
-    print("redo")
-    level.redo()
+    print("undo")
+    level.undo()
