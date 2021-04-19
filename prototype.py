@@ -24,6 +24,6 @@ class Prototype:
 
         self.level.flush()
         import time
-        time.sleep(redo)
-        print("redo")
-        self.level.redo()
+        time.sleep(10)
+        print("undo")
+        self.level.undo()

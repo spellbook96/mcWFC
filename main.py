@@ -19,5 +19,5 @@ b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
 
 import time
 time.sleep(10)
-print("redo")
-level.redo()
+print("undo")
+level.undo()
