@@ -117,6 +117,7 @@ class WFC:
 
         self.stack = [None for _ in range(self.FMX*self.FMY*self.FMZ*T)]
         self.stacksize = 0
+        self.weights[32] = 5
 
         
     def OnBoundary(self,x, y, z):
@@ -143,7 +144,7 @@ class WFC:
         comp = self.compatible[y][z][x][t]
         for d in range(6):
             comp[d] = 0
-        self.stack[stacksize] = (i,t)
+        self.stack[self.stacksize] = (i,t)
         self.stacksize += 1
 
         self.sumsOfOnes[y][z][x] -= 1
@@ -151,7 +152,7 @@ class WFC:
         self.sumsOfWeightLogWeights[y][z][x] -= self.weightLogWeights[t]
         
         s = self.sumsOfWeights[y][z][x]
-        self.entropies[y][z][x] = math.log(s) - self.sumsOfWeightLogWeights[i] / s
+        self.entropies[y][z][x] = math.log(s) - self.sumsOfWeightLogWeights[y][z][x] / s
 
     def Propagate(self):
         while self.stacksize > 0:
@@ -198,6 +199,7 @@ class WFC:
         for y in range(self.FMY):
             for z in range(self.FMZ):
                 for x in range(self.FMX):
+                    
                     if self.OnBoundary(x,y,z):
                         continue
                     amount = self.sumsOfOnes[y][z][x]
@@ -224,7 +226,7 @@ class WFC:
         distribution = [0 for _ in range(0,self.T)]
         x,y,z = argmin
         for t in range(0,self.T):
-            distribution[t] = weights[t] if self.wave[y][z][x][t] else 0
+            distribution[t] = self.weights[t] if self.wave[y][z][x][t] else 0
         r = self.StuffRandom(distribution, random.random())
 
         w = self.wave[y][z][x]
@@ -253,20 +255,22 @@ class WFC:
                             for d in range(6):
                                 self.compatible[y][z][x][t][d] = len(self.propagator[self.opposite[d]][t])
                     
-                    self.sumsOfOnes[y][z][x] = len(self.weights)
-                    self.sumsOfWeights[y][z][x] = self.sumOfWeights
-                    self.sumsOfWeightLogWeights[y][z][x] = self.sumOfWeightLogWeights
-                    self.entropies[y][z][x] = self.startingEntropy
+                        self.sumsOfOnes[y][z][x] = len(self.weights)
+                        self.sumsOfWeights[y][z][x] = self.sumOfWeights
+                        self.sumsOfWeightLogWeights[y][z][x] = self.sumOfWeightLogWeights
+                        self.entropies[y][z][x] = self.startingEntropy
 
     def run(self):
         self.Clear()
-        
+        n =0
         while 1:
+            print("%d -------------------" % n)
+            print(self.wave)
             result = self.Observe()
             if (result != None):
                 return result
             self.Propagate()
-        
+            n +=1
         return True
 
     def getPList(self,n=10):
@@ -306,17 +310,17 @@ if __name__ == "__main__":
     bd = buildingData(level,filename="house.txt")
     bdData = bd.getBuildingData()
     wfc = WFC(15,15,15,bdData)
-    # r = wfc.run()
-    # print(r)
-    prototype = wfc.getPrototype(level)
-    prototype.show(x_center,level.getHeightAt(x_center,z_center),z_center)
-    prototypes = wfc.getPList()
-    # n =0
+    r = wfc.run()
+    print(r)
+    # prototype = wfc.getPrototype(level)
+    # prototype.show(x_center,level.getHeightAt(x_center,z_center),z_center)
+    # prototypes = wfc.getPList()
+    # # n =0
     
     
-    level.flush()
-    import time
+    # level.flush()
+    # import time
 
-    time.sleep(10)
-    print("undo")
-    level.undo()
+    # time.sleep(10)
+    # print("undo")
+    # level.undo()
