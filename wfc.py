@@ -265,7 +265,10 @@ class WFC:
         n =0
         while 1:
             print("%d -------------------" % n)
-            print(self.wave)
+            for line in self.wave:
+                for point in line:  
+                    print(np.sum(point))
+            # print(self.wave)
             result = self.Observe()
             if (result != None):
                 return result
