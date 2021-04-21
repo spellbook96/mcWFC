@@ -47,7 +47,7 @@ class WFC:
         # print(PWeight)
         self.T = len(self.PList)
         T = self.T
-        self.propagator = [[[]for _ in range(self.T)] for _ in range(6)]    #6*T*uncertain
+        self.propagator = [[[None]for _ in range(self.T)] for _ in range(6)]    #6*T*uncertain
 
         self.DX = [-1,0,1,0,0,0]
         self.DY = [0,1,0,-1,0,0]
@@ -69,6 +69,15 @@ class WFC:
                             return False
             return True
 
+        self.Air_p = np.full((3,3,3),self.NametoID["minecraft:air"])
+        self.Air_i = 0
+        index =0
+        for p in self.PList:
+            if np.allclose(p,self.Air_p):
+                self.Air_i = index
+                break
+            index+=1
+        
         for d in range(0,6):
             for t in range(0,T):
                 l = list()
@@ -78,7 +87,10 @@ class WFC:
                 self.propagator[d][t] = [0 for _ in range(len(l))]
                 for c in range(len(l)):
                     self.propagator[d][t][c] = l[c]
+                if self.propagator[d][t]== []:
+                    self.propagator[d][t]=[self.Air_i]
                 print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
+
 
         self.wave = [[[[False for _ in range(T)]for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
         self.compatible = [[[[[0 for _ in range(6)]for _ in range(T)] for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
@@ -288,6 +300,8 @@ if __name__ == "__main__":
     z_size = area[3]
     x_end = x_start + x_size
     z_end = z_start + z_size
+    x_center = int((x_start + x_end) /2)
+    z_center = int((z_start + z_end) /2)
 
     bd = buildingData(level,filename="house.txt")
     bdData = bd.getBuildingData()
@@ -295,7 +309,7 @@ if __name__ == "__main__":
     # r = wfc.run()
     # print(r)
     prototype = wfc.getPrototype(level)
-    prototype.show(298,4,137)
+    prototype.show(x_center,level.getHeightAt(x_center,z_center),z_center)
     prototypes = wfc.getPList()
     # n =0
     
