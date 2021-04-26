@@ -151,11 +151,11 @@ if __name__ == "__main__":
     z_center = int((z_start + z_end) /2)
 
     # writeData(level, (-95,65,-312), (-42,136,-224), filename="palace.txt")
-    # b = buildingData(level,"palace.txt")
-    # b.build(x_start,4,z_start)
-    b = buildingData(level)
-    b.catch((358,26,65),(360,30,80))
-    b.build(343,3,82)
+    b = buildingData(level,"test.txt")
+    b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
+    # b = buildingData(level)
+    # b.catch((124,4,212),(154,33,242),"test.txt")
+    # b.build(152,4,202)
     import time
 
     time.sleep(10)

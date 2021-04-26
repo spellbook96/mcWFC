@@ -7,7 +7,6 @@ class WFC:
         #initialize
 
         self.stationary = []
-        
         self.blockList,PL,self.IDtoName,self.NametoID = buildingdata
         blockArr = np.array(self.blockList)
         y,z,x = blockArr.shape
@@ -100,7 +99,7 @@ class WFC:
         self.weightLogWeights = [0 for _ in range(T) ]
         self.sumOfWeights = 0
         self.sumOfWeightLogWeights = 0
-
+    
 
         for t in range(T):
             self.weights[t] = PWeight[t]
@@ -117,7 +116,8 @@ class WFC:
 
         self.stack = [None for _ in range(self.FMX*self.FMY*self.FMZ*T)]
         self.stacksize = 0
-        self.weights[32] = 5
+
+        self.weights[self.Air_i] = 10
 
         
     def OnBoundary(self,x, y, z):
@@ -231,19 +231,18 @@ class WFC:
 
         w = self.wave[y][z][x]
 
-
-        #(-384,4,-95)
-        
-
-        #interfaceUtils.placeBlockBatched(-357+_x, 1+_y, -95+_z, blockList[PList[r][0]], 100)
-        # setBlock(-384+_x,1+_y,-95+_z,blockList[PList[r][0]])
-        # interfaceUtils.sendBlocks()
-
-
         for t in range(0,self.T):
             if w[t] != (t == r):
                 self.Ban(argmin,t)
         
+        if self.Vflag:
+            print("pattern %s at (%d,%d,%d)" % (r,self.Vx+x,self.Vy+y,self.Vz+z))
+            p = self.PList[r]
+            for _y in range(self.N):
+                for _z in range(self.N):
+                    for _x in range(self.N):
+                        self.level.setBlock(_x+self.Vx+x,_y+self.Vy+y,_z+z+self.Vz,self.IDtoName[p[_y][_z][_x]])
+            self.level.flush()
         return None    
 
     def Clear(self):
@@ -260,14 +259,38 @@ class WFC:
                         self.sumsOfWeightLogWeights[y][z][x] = self.sumOfWeightLogWeights
                         self.entropies[y][z][x] = self.startingEntropy
 
-    def run(self):
+    def run(self,level = None,visualize=False):
+
+        # visualize init
+        self.Vflag = False
+        if visualize == True:
+            self.Vflag = True
+            Vn = 0
+            self.level = level
+            area = self.level.getBuildArea()
+            x_start = area[0]
+            z_start = area[1]
+            x_size = area[2]
+            z_size = area[3]
+            x_end = x_start + x_size
+            z_end = z_start + z_size
+            self.Vx = int((x_start + x_end) /2)
+            self.Vz = int((z_start + z_end) /2)
+            # self.Vy = int(self.level.getHeightAt(self.Vx,self.Vz))
+            self.Vy = 4
+            for y in range(self.FMY):
+                for z in range(self.FMZ):
+                  for x in range(self.FMX):
+                      self.level.setBlock(self.Vx+x,self.Vy+y,self.Vz+z,"glass")
+
         self.Clear()
         n =0
         while 1:
-            print("%d -------------------" % n)
-            for line in self.wave:
-                for point in line:  
-                    print(np.sum(point))
+            # print("%d -------------------" % n)
+            # for a in self.wave:
+            #     for b in a:
+            #         for c in b:  
+            #             print(np.sum(c))
             # print(self.wave)
             result = self.Observe()
             if (result != None):
@@ -275,6 +298,18 @@ class WFC:
             self.Propagate()
             n +=1
         return True
+
+    def preview(self):
+        for _y in range(self.FMY):
+            for _z in range(self.FMZ):
+                for _x in range(self.FMX):
+                    if self.wave[_y][_z][_x]:
+                        pass
+
+    def process_bar(self,percent, start_str='', end_str='', total_length=0):
+        bar = ''.join(["\033[31m%s\033[0m"%'   '] * int(percent * total_length)) + ''
+        bar = '\r' + start_str + bar.ljust(total_length) + ' {:0>4.1f}%|'.format(percent*100) + end_str
+        print(bar, end='', flush=True)
 
     def getPList(self,n=10):
         result=[]
@@ -288,10 +323,10 @@ class WFC:
 
         return result
 
-    def getPrototype(self,level):
-        from Prototype import Prototype
-        prototype =Prototype(self.getPList(len(self.PList)),self.N,level)
-        return prototype
+    def getPrototypes(self,level):
+        from Prototypes import Prototypes
+        prototypes =Prototypes(self.getPList(len(self.PList)),self.N,level)
+        return prototypes
 
     def getIDtoName(self):
         return self.IDtoName
@@ -310,20 +345,19 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    bd = buildingData(level,filename="house.txt")
+    bd = buildingData(level,filename="test.txt")
     bdData = bd.getBuildingData()
-    wfc = WFC(15,15,15,bdData)
-    r = wfc.run()
+    wfc = WFC(20,20,20,bdData)
+    r = wfc.run(level=level,visualize=True)
     print(r)
-    # prototype = wfc.getPrototype(level)
-    # prototype.show(x_center,level.getHeightAt(x_center,z_center),z_center)
-    # prototypes = wfc.getPList()
+    # prototypes = wfc.getPrototypes(level)
+    # prototypes.show(x_center,4,z_center)
     # # n =0
     
     
-    # level.flush()
-    # import time
+    level.flush()
+    import time
 
-    # time.sleep(10)
-    # print("undo")
-    # level.undo()
+    time.sleep(10)
+    print("undo")
+    level.undo()

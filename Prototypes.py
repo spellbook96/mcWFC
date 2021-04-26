@@ -1,5 +1,5 @@
 
-class Prototype:
+class Prototypes:
     def __init__(self,PList,size,level):
         self.PList =PList
         self.n = len(PList)
@@ -19,7 +19,6 @@ class Prototype:
                 for _z in range(self.size):
                     for _x in range(self.size):
                         self.level.setBlock(_x+x+space,_y+y,_z+z,prototype[_y][_z][_x])
-                    
             space+=(self.size+1)
 
         self.level.flush()
