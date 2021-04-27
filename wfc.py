@@ -5,7 +5,8 @@ import copy
 class WFC:
     def __init__(self, x_size,y_size,z_size,buildingdata):
         #initialize
-
+        begin_time = time()
+        print("-------------------\ninitializing wfc")
         self.stationary = []
         self.blockList,PL,self.IDtoName,self.NametoID = buildingdata
         blockArr = np.array(self.blockList)
@@ -18,21 +19,21 @@ class WFC:
         # initialize pattern list and weights
         self.PList = list()
         PWeight = {}
-
+        from Prototypes import Prototype
         for _y in range(0,y-self.N):
             for _z in range(0,z-self.N):
                 for _x in range(0,x-self.N):
-                    pattern = np.zeros([self.N,self.N,self.N],dtype=int)
+                    pattern = Prototype(self.N)
                     for ny in range(0,self.N):
                         for nz in range(0,self.N):
                             for nx in range(0,self.N):
-                                pattern[ny][nz][nx]=blockArr[_y+ny][_z+nz][_x+nx]       
+                                pattern.blocks[ny][nz][nx]=blockArr[_y+ny][_z+nz][_x+nx]       
                                 # print("pattern %s %s %s [%s]: %s"%(i,j,k,ni+nj*self.N+nk*self.N*self.N,pattern[ni+nj*self.N+nk*self.N*self.N]))
 
                     index = 0
                     for p in self.PList:
-                        p = np.array(p)
-                        if np.allclose(pattern,p):
+                        p = np.array(p.blocks)
+                        if np.allclose(pattern.blocks,p):
                             break
                         index += 1
                     if (index == len(self.PList)):
@@ -43,6 +44,15 @@ class WFC:
                     else:
                         PWeight[index] += 1
 
+        # add dirt pattern
+        # self.Dirt_i = len(self.PList)
+        # dirtID = self.NametoID["minecraft:dirt"]
+        # dirtP = Prototype(self.N)
+        # for ny in range(0,self.N):
+        #     for nz in range(0,self.N):
+        #         for nx in range(0,self.N):
+        #             dirtP.blocks[ny][nz][nx]=dirtID
+        # self.PList.append(dirtP)
         # print(PWeight)
         self.T = len(self.PList)
         T = self.T
@@ -68,27 +78,34 @@ class WFC:
                             return False
             return True
 
-        self.Air_p = np.full((3,3,3),self.NametoID["minecraft:air"])
+        self.Air_p = np.full((self.N,self.N,self.N),self.NametoID["minecraft:air"])
         self.Air_i = 0
         index =0
         for p in self.PList:
-            if np.allclose(p,self.Air_p):
+            if np.allclose(p.blocks,self.Air_p):
                 self.Air_i = index
                 break
             index+=1
-        
+        self.Dirt_p = np.full((self.N,self.N,self.N),self.NametoID["minecraft:dirt"])
+        self.Dirt_i = 0
+        index =0
+        for p in self.PList:
+            if np.allclose(p.blocks,self.Dirt_p):
+                self.Dirt_i = index
+                break
+            index+=1
         for d in range(0,6):
             for t in range(0,T):
                 l = list()
                 for t2 in range(0,T):
-                    if agrees(self.PList[t],self.PList[t2],self.DX[d],self.DY[d],self.DZ[d]) :
+                    if agrees(self.PList[t].blocks,self.PList[t2].blocks,self.DX[d],self.DY[d],self.DZ[d]) :
                         l.append(t2)
                 self.propagator[d][t] = [0 for _ in range(len(l))]
                 for c in range(len(l)):
                     self.propagator[d][t][c] = l[c]
                 if self.propagator[d][t]== []:
                     self.propagator[d][t]=[self.Air_i]
-                print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
+                # print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
 
 
         self.wave = [[[[False for _ in range(T)]for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
@@ -119,6 +136,10 @@ class WFC:
 
         self.weights[self.Air_i] = 10
 
+        # Calculate run time
+        end_time = time()
+        run_time = end_time - begin_time
+        print("runtime: %.2f s" % run_time)
         
     def OnBoundary(self,x, y, z):
         return ((x + self.N > self.FMX ) or (y + self.N > self.FMY) or (z + self.N > self.FMZ))
@@ -186,20 +207,19 @@ class WFC:
 
                 for l in range(len(p)):
                     t2 = p[l]
-                    print(d,e1,p)
                     comp = compat[t2]
 
                     comp[d] -= 1
                     if comp[d] ==0:
 
-                        if self.Vflag:
-                            print("pattern %s at (%d,%d,%d)" % (t2,self.Vx+x2,self.Vy+y2,self.Vz+z2))
-                            pt = self.PList[t2]
-                            for _y in range(self.N):
-                                for _z in range(self.N):
-                                    for _x in range(self.N):
-                                        self.level.setBlock(_x+self.Vx+x2,_y+self.Vy+y2,_z+z2+self.Vz,self.IDtoName[pt[_y][_z][_x]])
-                            self.level.flush()
+                        # if self.Vflag:
+                        #     print("pattern %s at (%d,%d,%d)" % (t2,self.Vx+x2,self.Vy+y2,self.Vz+z2))
+                        #     pt = self.PList[t2].blocks
+                        #     for _y in range(self.N):
+                        #         for _z in range(self.N):
+                        #             for _x in range(self.N):
+                        #                 self.level.setBlock(_x+self.Vx+x2,_y+self.Vy+y2,_z+z2+self.Vz,self.IDtoName[pt[_y][_z][_x]])
+                        #     self.level.flush()
                         self.Ban(i2,t2)
 
     def Observe(self):
@@ -245,14 +265,14 @@ class WFC:
             if w[t] != (t == r):
                 self.Ban(argmin,t)
         
-        if self.Vflag:
-            print("pattern %s at (%d,%d,%d)" % (r,self.Vx+x,self.Vy+y,self.Vz+z))
-            p = self.PList[r]
-            for _y in range(self.N):
-                for _z in range(self.N):
-                    for _x in range(self.N):
-                        self.level.setBlock(_x+self.Vx+x,_y+self.Vy+y,_z+z+self.Vz,self.IDtoName[p[_y][_z][_x]])
-            self.level.flush()
+        # if self.Vflag:
+        #     print("pattern %s at (%d,%d,%d)" % (r,self.Vx+x,self.Vy+y,self.Vz+z))
+        #     p = self.PList[r].blocks
+        #     for _y in range(self.N):
+        #         for _z in range(self.N):
+        #             for _x in range(self.N):
+        #                 self.level.setBlock(_x+self.Vx+x,_y+self.Vy+y,_z+z+self.Vz,self.IDtoName[p[_y][_z][_x]])
+        #     self.level.flush()
         return None    
 
     def Clear(self):
@@ -270,7 +290,8 @@ class WFC:
                         self.entropies[y][z][x] = self.startingEntropy
 
     def run(self,level = None,visualize=False):
-
+        begin_time = time()
+        print("-------------------\nrunning wfc")
         # visualize init
         self.Vflag = False
         if visualize == True:
@@ -292,6 +313,8 @@ class WFC:
                 for z in range(self.FMZ):
                   for x in range(self.FMX):
                       self.level.setBlock(self.Vx+x,self.Vy+y,self.Vz+z,"glass")
+            self.level.flush()
+
 
         self.Clear()
         n =0
@@ -306,6 +329,10 @@ class WFC:
             if (result != None):
                 if self.Vflag == True:
                     self.preview()
+                # Calculate run time
+                end_time = time()
+                run_time = end_time - begin_time
+                print("runtime: %.2f s" % run_time)
                 return result
             self.Propagate()
             n +=1
@@ -318,7 +345,7 @@ class WFC:
                     if np.sum(self.wave[_y][_z][_x])==1:
                         for t in range(len(self.PList)):
                             if self.wave[_y][_z][_x][t]==True:
-                                p = self.PList[t]
+                                p = self.PList[t].blocks
                                 for y in range(self.N):
                                     for z in range(self.N):
                                         for x in range(self.N):
@@ -337,7 +364,7 @@ class WFC:
             for y in range(self.N):
                 for z in range(self.N):
                     for x in range(self.N):
-                        PData[y][z][x]=self.IDtoName[self.PList[i][y][z][x]]
+                        PData[y][z][x]=self.IDtoName[self.PList[i].blocks[y][z][x]]
             result.append(copy.deepcopy(PData))
 
         return result
@@ -364,9 +391,9 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    bd = buildingData(level,filename="test.txt")
+    bd = buildingData(level,filename="t_r.txt")
     bdData = bd.getBuildingData()
-    wfc = WFC(15,15,15,bdData)
+    wfc = WFC(15,20,15,bdData)
     r = wfc.run(level=level,visualize=True)
     print(r)
     # prototypes = wfc.getPrototypes(level)
