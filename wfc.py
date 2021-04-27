@@ -16,6 +16,16 @@ class WFC:
         self.FMZ = z_size
         self.N = 3
         N=self.N
+        self.IDtoName[len(self.IDtoName)]="minecraft:dirt"
+        self.NametoID["minecraft:dirt"] = len(self.IDtoName)-1
+        #regular
+        tmp=np.full((y+self.N,z,x),self.NametoID["minecraft:dirt"])
+        for _y in range(y):
+            for _z in range(z):
+                for _x in range(x):
+                    tmp[_y+self.N][_z][_x]=blockArr[_y][_z][_x]
+        blockArr = tmp
+        
         # initialize pattern list and weights
         self.PList = list()
         PWeight = {}
@@ -147,6 +157,7 @@ class WFC:
         # Calculate run time
         end_time = time()
         run_time = end_time - begin_time
+        print("generated %d patterns" % T)
         print("runtime: %.2f s" % run_time)
         
     def OnBoundary(self,x, y, z):
@@ -413,13 +424,13 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    bd = buildingData(level,filename="t_r1.txt")
+    bd = buildingData(level,filename="test.txt")
     bdData = bd.getBuildingData()
     wfc = WFC(20,20,20,bdData)
     r = wfc.run(level=level,visualize=True)
     print(r)
     # prototypes = wfc.getPrototypes(level)
-    # prototypes.show(x_center,4,z_center)
+    # prototypes.show(377,4,600)
     # # n =0
     
     
