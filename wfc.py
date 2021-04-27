@@ -19,10 +19,13 @@ class WFC:
         # initialize pattern list and weights
         self.PList = list()
         PWeight = {}
+        self.Pstep = 2
+
+
         from Prototypes import Prototype
-        for _y in range(0,y-self.N):
-            for _z in range(0,z-self.N):
-                for _x in range(0,x-self.N):
+        for _y in range(0,y-self.N,self.Pstep):
+            for _z in range(0,z-self.N,self.Pstep):
+                for _x in range(0,x-self.N,self.Pstep):
                     pattern = Prototype(self.N)
                     for ny in range(0,self.N):
                         for nz in range(0,self.N):
@@ -57,6 +60,11 @@ class WFC:
         self.T = len(self.PList)
         T = self.T
         self.propagator = [[[None]for _ in range(self.T)] for _ in range(6)]    #6*T*uncertain
+
+
+        self.DX2 = [-self.Pstep,0,self.Pstep,0,0,0]
+        self.DY2 = [0,self.Pstep,0,-self.Pstep,0,0]
+        self.DZ2 = [0,0,0,0,self.Pstep,-self.Pstep]
 
         self.DX = [-1,0,1,0,0,0]
         self.DY = [0,1,0,-1,0,0]
@@ -98,14 +106,14 @@ class WFC:
             for t in range(0,T):
                 l = list()
                 for t2 in range(0,T):
-                    if agrees(self.PList[t].blocks,self.PList[t2].blocks,self.DX[d],self.DY[d],self.DZ[d]) :
+                    if agrees(self.PList[t].blocks,self.PList[t2].blocks,self.DX2[d],self.DY2[d],self.DZ2[d]) :
                         l.append(t2)
                 self.propagator[d][t] = [0 for _ in range(len(l))]
                 for c in range(len(l)):
                     self.propagator[d][t][c] = l[c]
                 if self.propagator[d][t]== []:
                     self.propagator[d][t]=[self.Air_i]
-                # print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
+                #print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
 
 
         self.wave = [[[[False for _ in range(T)]for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
@@ -351,6 +359,7 @@ class WFC:
         return True
 
     def preview(self):
+        #import pdb; pdb.set_trace()
         for _y in range(self.FMY):
             for _z in range(self.FMZ):
                 for _x in range(self.FMX):
@@ -358,10 +367,10 @@ class WFC:
                         for t in range(len(self.PList)):
                             if self.wave[_y][_z][_x][t]==True:
                                 p = self.PList[t].blocks
-                                for y in range(self.N):
-                                    for z in range(self.N):
-                                        for x in range(self.N):
-                                            self.level.setBlock(_x+self.Vx+x,_y+self.Vy+y,_z+z+self.Vz,self.IDtoName[p[y][z][x]])
+                                for y in range(self.Pstep):
+                                    for z in range(self.Pstep):
+                                        for x in range(self.Pstep):
+                                            self.level.setBlock(_x*self.Pstep+self.Vx+x,_y*self.Pstep+self.Vy+y,_z*self.Pstep+z+self.Vz,self.IDtoName[p[y][z][x]])
                                 
 
     def process_bar(self,percent, start_str='', end_str='', total_length=0):
@@ -392,7 +401,7 @@ class WFC:
 if __name__ == "__main__":
     from buildingData import *
     from Level import *
-    level = Level(USE_BATCHING=100)
+    level = Level(USE_BATCHING=1000)
     area = level.getBuildArea()
     x_start = area[0]
     z_start = area[1]
@@ -403,7 +412,7 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    bd = buildingData(level,filename="t_r1.txt")
+    bd = buildingData(level,filename="test.txt")
     bdData = bd.getBuildingData()
     wfc = WFC(20,20,20,bdData)
     r = wfc.run(level=level,visualize=True)
