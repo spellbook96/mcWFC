@@ -327,9 +327,9 @@ class WFC:
             # self.Vy = int(self.level.getHeightAt(self.Vx,self.Vz))
             self.Vy = 4
             print("building at %d %d %d" %(self.Vx,self.Vy,self.Vz))
-            for y in range(self.FMY):
-                for z in range(self.FMZ):
-                  for x in range(self.FMX):
+            for y in range(self.FMY*self.Pstep):
+                for z in range(self.FMZ*self.Pstep):
+                  for x in range(self.FMX*self.Pstep):
                       self.level.setBlock(self.Vx+x,self.Vy+y,self.Vz+z,"glass")
             self.level.flush()
 
@@ -401,7 +401,7 @@ class WFC:
 if __name__ == "__main__":
     from buildingData import *
     from Level import *
-    level = Level(USE_BATCHING=1000)
+    level = Level(USE_BATCHING=2000)
     area = level.getBuildArea()
     x_start = area[0]
     z_start = area[1]
@@ -412,7 +412,7 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    bd = buildingData(level,filename="test.txt")
+    bd = buildingData(level,filename="t_r1.txt")
     bdData = bd.getBuildingData()
     wfc = WFC(20,20,20,bdData)
     r = wfc.run(level=level,visualize=True)
