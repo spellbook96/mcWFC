@@ -152,13 +152,13 @@ if __name__ == "__main__":
     z_center = int((z_start + z_end) /2)
 
     # writeData(level, (-95,65,-312), (-42,136,-224), filename="palace.txt")
-    b = buildingData(level,"t_r.txt")
+    b = buildingData(level,"t_r1.txt")
     b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
     # b = buildingData(level)
-    # b.catch((168,1,450),(186,17,468),"t_r.txt")
+    # b.catch((203,1,530),(221,17,546),"t_r1.txt")
     # b.build(152,4,202)
     import time
 
-    time.sleep(10)
+    time.sleep(20)
     print("undo")
     level.undo()

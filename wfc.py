@@ -135,7 +135,7 @@ class WFC:
         self.stacksize = 0
 
         self.weights[self.Air_i] = 10
-
+        self.weights[self.Dirt_i] = 1
         # Calculate run time
         end_time = time()
         run_time = end_time - begin_time
@@ -289,6 +289,15 @@ class WFC:
                         self.sumsOfWeightLogWeights[y][z][x] = self.sumOfWeightLogWeights
                         self.entropies[y][z][x] = self.startingEntropy
 
+        for x in range(self.FMX):
+            for z in range(self.FMZ):
+                for t in range(self.T):
+                    if t!=self.Dirt_i:
+                        self.Ban((x,0,z),t)
+                for y in range(1,self.FMY):
+                    self.Ban((x,y,z),self.Dirt_i)
+        self.Propagate()
+
     def run(self,level = None,visualize=False):
         begin_time = time()
         print("-------------------\nrunning wfc")
@@ -315,27 +324,29 @@ class WFC:
                       self.level.setBlock(self.Vx+x,self.Vy+y,self.Vz+z,"glass")
             self.level.flush()
 
-
+        #init process bar
+        process_c =0
+        process_cM = 1
+        process_n = self.FMX*self.FMZ*self.FMY*(self.T-1)
         self.Clear()
-        n =0
+        self.process_bar(0,start_str='',end_str='100%', total_length=15)
         while 1:
-            # print("%d -------------------" % n)
-            # for a in self.wave:
-            #     for b in a:
-            #         for c in b:  
-            #             print(np.sum(c))
-            # print(self.wave)
             result = self.Observe()
             if (result != None):
+                self.process_bar(1,start_str='',end_str='100%', total_length=15)
                 if self.Vflag == True:
                     self.preview()
                 # Calculate run time
                 end_time = time()
                 run_time = end_time - begin_time
-                print("runtime: %.2f s" % run_time)
+                print("\nruntime: %.2f s" % run_time)
                 return result
             self.Propagate()
-            n +=1
+            process_c+=1
+            if process_c ==process_cM:
+                process_c =0
+                percent = (self.FMX*self.FMZ*self.FMY*self.T-np.sum(self.wave))/process_n
+                self.process_bar(percent,start_str='',end_str='100%', total_length=15)
         return True
 
     def preview(self):
@@ -353,7 +364,7 @@ class WFC:
                                 
 
     def process_bar(self,percent, start_str='', end_str='', total_length=0):
-        bar = ''.join(["\033[31m%s\033[0m"%'   '] * int(percent * total_length)) + ''
+        bar = ''.join(["\033[31m%s\033[0m"%'=='] * int(percent * total_length)) + ''
         bar = '\r' + start_str + bar.ljust(total_length) + ' {:0>4.1f}%|'.format(percent*100) + end_str
         print(bar, end='', flush=True)
 
@@ -391,9 +402,9 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    bd = buildingData(level,filename="t_r.txt")
+    bd = buildingData(level,filename="t_r1.txt")
     bdData = bd.getBuildingData()
-    wfc = WFC(15,20,15,bdData)
+    wfc = WFC(20,20,20,bdData)
     r = wfc.run(level=level,visualize=True)
     print(r)
     # prototypes = wfc.getPrototypes(level)
