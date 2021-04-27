@@ -186,10 +186,20 @@ class WFC:
 
                 for l in range(len(p)):
                     t2 = p[l]
+                    print(d,e1,p)
                     comp = compat[t2]
 
                     comp[d] -= 1
                     if comp[d] ==0:
+
+                        if self.Vflag:
+                            print("pattern %s at (%d,%d,%d)" % (t2,self.Vx+x2,self.Vy+y2,self.Vz+z2))
+                            pt = self.PList[t2]
+                            for _y in range(self.N):
+                                for _z in range(self.N):
+                                    for _x in range(self.N):
+                                        self.level.setBlock(_x+self.Vx+x2,_y+self.Vy+y2,_z+z2+self.Vz,self.IDtoName[pt[_y][_z][_x]])
+                            self.level.flush()
                         self.Ban(i2,t2)
 
     def Observe(self):
@@ -294,6 +304,8 @@ class WFC:
             # print(self.wave)
             result = self.Observe()
             if (result != None):
+                if self.Vflag == True:
+                    self.preview()
                 return result
             self.Propagate()
             n +=1
@@ -303,8 +315,15 @@ class WFC:
         for _y in range(self.FMY):
             for _z in range(self.FMZ):
                 for _x in range(self.FMX):
-                    if self.wave[_y][_z][_x]:
-                        pass
+                    if np.sum(self.wave[_y][_z][_x])==1:
+                        for t in range(len(self.PList)):
+                            if self.wave[_y][_z][_x][t]==True:
+                                p = self.PList[t]
+                                for y in range(self.N):
+                                    for z in range(self.N):
+                                        for x in range(self.N):
+                                            self.level.setBlock(_x+self.Vx+x,_y+self.Vy+y,_z+z+self.Vz,self.IDtoName[p[y][z][x]])
+                                
 
     def process_bar(self,percent, start_str='', end_str='', total_length=0):
         bar = ''.join(["\033[31m%s\033[0m"%'   '] * int(percent * total_length)) + ''
@@ -347,7 +366,7 @@ if __name__ == "__main__":
 
     bd = buildingData(level,filename="test.txt")
     bdData = bd.getBuildingData()
-    wfc = WFC(20,20,20,bdData)
+    wfc = WFC(15,15,15,bdData)
     r = wfc.run(level=level,visualize=True)
     print(r)
     # prototypes = wfc.getPrototypes(level)
@@ -356,8 +375,8 @@ if __name__ == "__main__":
     
     
     level.flush()
-    import time
+    # import time
 
-    time.sleep(10)
-    print("undo")
-    level.undo()
+    # time.sleep(10)
+    # print("undo")
+    # level.undo()
