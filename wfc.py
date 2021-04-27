@@ -2,7 +2,7 @@ import math
 import random
 import numpy as np
 import copy
-class WFC:
+class WFC: #branch 0
     def __init__(self, x_size,y_size,z_size,buildingdata):
         #initialize
         begin_time = time()
