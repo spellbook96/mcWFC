@@ -326,11 +326,12 @@ class WFC:
             self.Vz = int((z_start + z_end) /2)
             # self.Vy = int(self.level.getHeightAt(self.Vx,self.Vz))
             self.Vy = 4
-            print("building at %d %d %d" %(self.Vx,self.Vy,self.Vz))
-            for y in range(self.FMY*self.Pstep):
-                for z in range(self.FMZ*self.Pstep):
-                  for x in range(self.FMX*self.Pstep):
-                      self.level.setBlock(self.Vx+x,self.Vy+y,self.Vz+z,"glass")
+            # print("building at %d %d %d" %(self.Vx,self.Vy,self.Vz))
+            # for y in range(0,self.FMY*self.Pstep-self.N*self.Pstep):
+            #     for z in range(0,self.FMZ*self.Pstep-self.N*self.Pstep):
+            #       for x in range(0,self.FMX*self.Pstep-self.N*self.Pstep):
+            #           if x==0 or x==self.FMX*self.Pstep-self.N*self.Pstep or z==0 or z==self.FMZ*self.Pstep-self.N*self.Pstep:
+            #             self.level.setBlock(self.Vx+x,self.Vy+y,self.Vz+z,"glass")
             self.level.flush()
 
         #init process bar
@@ -423,8 +424,8 @@ if __name__ == "__main__":
     
     
     level.flush()
-    # import time
+    import time
 
-    # time.sleep(10)
-    # print("undo")
-    # level.undo()
+    time.sleep(10)
+    print("undo")
+    level.undo()
