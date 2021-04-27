@@ -87,6 +87,7 @@ class buildingData:
         writeData(self.level,sPos,ePos,filename=filename)
         self.__init__(self.level,filename=filename)
 
+
     def clear(self, x=0, y=0, z=0):
         self.level.undo_flag=False
         if(x == 0 and y == 0 and z == 0):
@@ -151,10 +152,10 @@ if __name__ == "__main__":
     z_center = int((z_start + z_end) /2)
 
     # writeData(level, (-95,65,-312), (-42,136,-224), filename="palace.txt")
-    b = buildingData(level,"test.txt")
+    b = buildingData(level,"t_r.txt")
     b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
     # b = buildingData(level)
-    # b.catch((124,4,212),(154,33,242),"test.txt")
+    # b.catch((168,1,450),(186,17,468),"t_r.txt")
     # b.build(152,4,202)
     import time
 

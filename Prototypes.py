@@ -1,4 +1,5 @@
 
+import numpy as np
 class Prototypes:
     def __init__(self,PList,size,level):
         self.PList =PList
@@ -26,3 +27,13 @@ class Prototypes:
         time.sleep(10)
         print("undo")
         self.level.undo()
+
+class Prototype:
+    def __init__(self,N,blocks=None,level=None):
+        self.N = N
+        if blocks ==None:
+            self.blocks = np.zeros([self.N,self.N,self.N],dtype=int)
+        else:
+            self.blocks = blocks
+        self.N =N
+        self.isFloor = False
