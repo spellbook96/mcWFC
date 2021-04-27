@@ -318,6 +318,7 @@ class WFC:
             self.Vz = int((z_start + z_end) /2)
             # self.Vy = int(self.level.getHeightAt(self.Vx,self.Vz))
             self.Vy = 4
+            print("building at %d %d %d" %(self.Vx,self.Vy,self.Vz))
             for y in range(self.FMY):
                 for z in range(self.FMZ):
                   for x in range(self.FMX):
