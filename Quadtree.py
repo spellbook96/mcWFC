@@ -4,16 +4,16 @@ from time import *
 
 
 class Quadtree:
-    def __init__(self, level):
+    def __init__(self, level,mgw =1,mfw=1,qms = 10,qi=4):
         # begin_time = time()
 
         # Set weight
         self.regard_as_obstruction_weigth = 0.7
-        self.median_gradientMap_weigth = 4
-        self.median_freq_y_map_weigth = 7
-        self.median_final_weigth = 3
-        self.Quadtree_min_of_size = 5
-        self.Quadtree_ignore = 5
+        self.median_gradientMap_weigth = mgw
+        self.median_freq_y_map_weigth = 20
+        self.median_final_weigth = mfw
+        self.Quadtree_min_of_size = qms
+        self.Quadtree_ignore = qi
 
         # init
         area = level.getBuildArea()
@@ -55,11 +55,13 @@ class Quadtree:
 
         # Find usable maps with Quadtree
         self.Quadtree=[]
+        self.QuadtreeList =[]
         self.Quadtree_Finder((self.final-1)*(-1),0,len(self.final)-1,0,len(self.final[0])-1)
         self.Quadtree_result = np.zeros((self.x_size, self.z_size), dtype=np.int)
         for i in self.Quadtree:
             self.Quadtree_result[i[0],i[1]]=1
 
+        print(self.QuadtreeList)
         # # Calculate run time
         # end_time = time()
         # run_time = end_time - begin_time
@@ -160,9 +162,61 @@ class Quadtree:
             for i in range(x_s,x_e+1):
                 for j in range(y_s,y_e+1):
                     self.Quadtree.append([i,j])
+            self.QuadtreeList.append([(x_s,y_s),(x_e-x_s,y_e-y_s)])
             return 0
 
         self.Quadtree_Finder(data,x_s,x_s+a-1,y_s,y_s+b-1)
         self.Quadtree_Finder(data,x_s+a,x_e,y_s,y_s+b-1)
         self.Quadtree_Finder(data,x_s,x_s+a-1,y_s+b,y_e)
         self.Quadtree_Finder(data,x_s+a,x_e,y_s+b,y_e)
+
+
+if __name__ == "__main__":
+    from Level import *
+    level = Level(USE_BATCHING=2000)
+
+    area = level.getBuildArea()
+    x_start = area[0]
+    z_start = area[1]
+    x_size = area[2]
+    z_size = area[3]
+    x_end = x_start + x_size
+    z_end = z_start + z_size
+    x_center = int((x_start + x_end) /2)
+    z_center = int((z_start + z_end) /2)
+    level.calculate_Quadtree(mgw =2,mfw=10,qms = 40,qi=5)
+    qm = level.getQuadtree()
+    level.plotMap()
+    # for z in range(z_size):
+    #     for x in range(x_size):
+    #         # if bm[x,z]==1:
+    #         #     level.setBlock(x+x_start,level.getHeightAt(x+x_start,z+z_start),z+z_start,"stone_brick_slab")
+    #         # if qm[x,z]==0:
+    #         #     level.setBlock(x+x_start,level.getHeightAt(x+x_start,z+z_start),z+z_start,"stone_brick_slab")
+    #         if qm[x,z]==1:
+    #             level.setBlock(x+x_start,level.getHeightAt(x+x_start,z+z_start),z+z_start,"smooth_red_sandstone_slab")
+
+    # QL = level.getQuadtreeList()
+    # from buildingData import *
+    # b_small = buildingData(level,"house.txt")
+    # b_sand = buildingData(level,"small.txt")
+    # b_7x7 = buildingData(level,"7x7cube.txt")
+    # # b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
+    # for p in QL:
+    #     x = x_start + p[0][0]
+    #     z = z_start +p[0][1]
+    #     y = level.getHeightAt(x,z)
+    #     size=(p[1][0],p[1][1])
+    #     if(size[0]==7 and size[1]==7):
+    #         b_7x7.build(x,y,z)
+    #     elif (size[0] <7 or size[1] <7) and size[0] > 5 and size[1]>5:
+    #         b_sand.build(x,y,z)
+        
+    #     elif p[1][0] >10 and p[1][1] >10:
+    #         b_small.build(x,y,z)
+    # level.flush()
+    # import time
+
+    # time.sleep(30)
+    # print("undo")
+    # level.undo()

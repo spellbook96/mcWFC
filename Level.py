@@ -23,7 +23,7 @@ import json
 
 
 class Level:
-    def __init__(self, USE_BATCHING=2000):
+    def __init__(self, USE_BATCHING=2000,hm=True):
         print("initializing")
         begin_time = time()
         self.area = (0, 0, 128, 128)  # default build area
@@ -39,9 +39,8 @@ class Level:
 
         print("Build area is at position %s, %s with size %s, %s" % self.area)
         self.worldSlice = WorldSlice(self.area)
-        self.heightmap = mapUtils.calcGoodHeightmap(self.worldSlice)
-        self.calculate_gradient()
-        self.Q = Quadtree(self)
+        # if hm:
+        #     self.calculate_Quadtree(self)
 
         self.undo_flag = True
         self.undo_blocks = []
@@ -55,12 +54,23 @@ class Level:
         run_time = end_time - begin_time
         print("runtime: %.2f s" % run_time)
 
+    def calculate_Quadtree(self,mgw =1,mfw=1,qms = 10,qi=2):
+        self.heightmap = mapUtils.calcGoodHeightmap(self.worldSlice)
+        self.calculate_gradient()
+        self.Q = Quadtree(self,mgw,mfw,qms,qi)
+
     def getBuildArea(self):
         return self.area
 
     def getHeightMap(self):
         return self.heightmap
 
+    def getQuadtree(self):
+        return self.Q.Quadtree_result
+        
+    def getQuadtreeList(self):
+        return self.Q.QuadtreeList
+        
     def calculate_gradient(self):
         res = np.gradient(self.heightmap)
         self.height_map_gradient_X = res[0]
@@ -155,12 +165,12 @@ if __name__ == "__main__":
     # f.build()
     from Cityscape import *
 
-    c = Cityspace(level, 50, 148, 3, 111, 1, 24, 0, 5, 2, (180, 182, 0, 179, 0))
+    c = Cityscape(level, 50, 154, 4, 74, 1, 24, 0, 5, 2, (180, 182, 0, 179, 0))
     c.build()
     level.print_blockID()
     import time
 
-    time.sleep(10)
+    time.sleep(60)
     print("undo")
     level.undo()
 

@@ -2,61 +2,66 @@ import math
 import random
 import numpy as np
 import copy
+from time import time, sleep
 class WFC:
-    def __init__(self, x_size,y_size,z_size,buildingdata):
+    def __init__(self, x_size,y_size,z_size,bd,N1=None,Pstep=None,AUTO = 1):
         #initialize
         begin_time = time()
         print("-------------------\ninitializing wfc")
         self.stationary = []
-        self.blockList,PL,self.IDtoName,self.NametoID = buildingdata
-        blockArr = np.array(self.blockList)
-        y,z,x = blockArr.shape
         self.FMX = x_size
         self.FMY = y_size
         self.FMZ = z_size
-        self.N = 3
-        N=self.N
-        self.IDtoName[len(self.IDtoName)]="minecraft:dirt"
-        self.NametoID["minecraft:dirt"] = len(self.IDtoName)-1
-        #regular
-        tmp=np.full((y+self.N,z,x),self.NametoID["minecraft:dirt"])
-        for _y in range(y):
-            for _z in range(z):
-                for _x in range(x):
-                    tmp[_y+self.N][_z][_x]=blockArr[_y][_z][_x]
-        blockArr = tmp
-        
-        # initialize pattern list and weights
-        self.PList = list()
-        PWeight = {}
-        self.Pstep = 2
+        if AUTO:
+            self.blockList,PL,self.IDtoName,self.NametoID = bd
+            blockArr = np.array(self.blockList)
+            y,z,x = blockArr.shape
+            
+            self.N = N1
+            N=self.N
+            self.IDtoName[len(self.IDtoName)]="minecraft:dirt"
+            self.NametoID["minecraft:dirt"] = len(self.IDtoName)-1
+            #regular
+            tmp=np.full((y+self.N,z,x),self.NametoID["minecraft:dirt"])
+            for _y in range(y):
+                for _z in range(z):
+                    for _x in range(x):
+                        tmp[_y+self.N][_z][_x]=blockArr[_y][_z][_x]
+            blockArr = tmp
+            
+            # initialize pattern list and weights
+            self.PList = list()
+            PWeight = {}
+            self.Pstep = Pstep
 
 
-        from Prototypes import Prototype
-        for _y in range(0,y-self.N,self.Pstep):
-            for _z in range(0,z-self.N,self.Pstep):
-                for _x in range(0,x-self.N,self.Pstep):
-                    pattern = Prototype(self.N)
-                    for ny in range(0,self.N):
-                        for nz in range(0,self.N):
-                            for nx in range(0,self.N):
-                                pattern.blocks[ny][nz][nx]=blockArr[_y+ny][_z+nz][_x+nx]       
-                                # print("pattern %s %s %s [%s]: %s"%(i,j,k,ni+nj*self.N+nk*self.N*self.N,pattern[ni+nj*self.N+nk*self.N*self.N]))
+            from Prototypes import Prototype
+            for _y in range(0,y-self.N,self.Pstep):
+                for _z in range(0,z-self.N,self.Pstep):
+                    for _x in range(0,x-self.N,self.Pstep):
+                        pattern = Prototype(self.N)
+                        for ny in range(0,self.N):
+                            for nz in range(0,self.N):
+                                for nx in range(0,self.N):
+                                    pattern.blocks[ny][nz][nx]=blockArr[_y+ny][_z+nz][_x+nx]       
+                                    # print("pattern %s %s %s [%s]: %s"%(i,j,k,ni+nj*self.N+nk*self.N*self.N,pattern[ni+nj*self.N+nk*self.N*self.N]))
 
-                    index = 0
-                    for p in self.PList:
-                        p = np.array(p.blocks)
-                        if np.allclose(pattern.blocks,p):
-                            break
-                        index += 1
-                    if (index == len(self.PList)):
-                        # print("add： %s" %pattern)
-                        self.PList.append(pattern)
-                        PWeight[index] = 1
+                        index = 0
+                        for p in self.PList:
+                            p = np.array(p.blocks)
+                            if np.allclose(pattern.blocks,p):
+                                break
+                            index += 1
+                        if (index == len(self.PList)):
+                            # print("add： %s" %pattern)
+                            self.PList.append(pattern)
+                            PWeight[index] = 1
 
-                    else:
-                        PWeight[index] += 1
-
+                        else:
+                            PWeight[index] += 1
+        else:
+            self.N, self.Pstep, self.IDtoName, self.NametoID, self.PList = bd
+        N = self.N
         # add dirt pattern
         # self.Dirt_i = len(self.PList)
         # dirtID = self.NametoID["minecraft:dirt"]
@@ -79,6 +84,10 @@ class WFC:
         self.DX = [-1,0,1,0,0,0]
         self.DY = [0,1,0,-1,0,0]
         self.DZ = [0,0,0,0,1,-1]
+
+
+
+        
         self.opposite = [2,3,0,1,5,4]
 
         def agrees(p1,p2,dx,dy,dz):
@@ -121,39 +130,70 @@ class WFC:
                 self.propagator[d][t] = [0 for _ in range(len(l))]
                 for c in range(len(l)):
                     self.propagator[d][t][c] = l[c]
-                if self.propagator[d][t]== []:
-                    self.propagator[d][t]=[self.Air_i]
-                #print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
+                # if self.propagator[d][t]== []:
+                #     self.propagator[d][t]=[self.Air_i]
+                print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
 
+        # limit rule
+        self.limitList = [[40,41,42,43]]
+        for limit in self.limitList:
+            for i in limit:
+                for d in range(6):
+                    for j in limit:
+                        try:
+                            self.propagator[d][i].remove(j)
+                        except:
+                            pass
 
-        self.wave = [[[[False for _ in range(T)]for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
-        self.compatible = [[[[[0 for _ in range(6)]for _ in range(T)] for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
-        self.observed = [[[None for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+        print("new limit")
+        for t in range(T):
+            for d in range(6):
+                print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
 
-        self.weights = [0 for _ in range(T) ]
-        self.weightLogWeights = [0 for _ in range(T) ]
+        # self.wave = [[[[False for _ in range(T)]for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+        # self.compatible = [[[[[0 for _ in range(6)]for _ in range(T)] for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+        # self.observed = [[[None for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+
+        self.wave = np.full(shape=(self.FMY,self.FMZ,self.FMX,T),fill_value=False)
+        self.compatible = np.zeros(shape=(self.FMY,self.FMZ,self.FMX,T,6))
+        self.observed =np.full(shape=(self.FMY,self.FMZ,self.FMX),fill_value=None)
+        # self.weights = [0 for _ in range(T) ]
+        # self.weightLogWeights = [0 for _ in range(T) ]
+        self.weights = np.zeros(T)
+        self.weightLogWeights = np.zeros(T)
         self.sumOfWeights = 0
         self.sumOfWeightLogWeights = 0
     
-
-        for t in range(T):
-            self.weights[t] = PWeight[t]
-            self.weightLogWeights[t] = self.weights[t] * math.log(self.weights[t])
-            self.sumOfWeights += self.weights[t]
-            self.sumOfWeightLogWeights += self.weightLogWeights[t]
+        if AUTO:
+            for t in range(T):
+                self.weights[t] = PWeight[t]
+                self.weightLogWeights[t] = self.weights[t] * math.log(self.weights[t])
+                self.sumOfWeights += self.weights[t]
+                self.sumOfWeightLogWeights += self.weightLogWeights[t]
+        else:
+            for t in range(T):
+                self.weights[t] = 4
+                self.weightLogWeights[t] = self.weights[t] * math.log(self.weights[t])
+                self.sumOfWeights += self.weights[t]
+                self.sumOfWeightLogWeights += self.weightLogWeights[t]
 
         self.startingEntropy = math.log(self.sumOfWeights) - self.sumOfWeightLogWeights / self.sumOfWeights
 
-        self.sumsOfOnes = [[[0 for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
-        self.sumsOfWeights = [[[0 for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
-        self.sumsOfWeightLogWeights = [[[0 for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
-        self.entropies = [[[0 for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+        # self.sumsOfOnes = [[[0 for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+        # self.sumsOfWeights = [[[0 for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+        # self.sumsOfWeightLogWeights = [[[0 for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+        # self.entropies = [[[0 for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
+        # self.stack = [None for _ in range(self.FMX*self.FMY*self.FMZ*T)]
+        self.sumsOfOnes = np.zeros(shape=(self.FMY,self.FMZ,self.FMX))
+        self.sumsOfWeights = np.zeros(shape=(self.FMY,self.FMZ,self.FMX))
+        self.sumsOfWeightLogWeights = np.zeros(shape=(self.FMY,self.FMZ,self.FMX))
+        self.entropies = np.zeros(shape=(self.FMY,self.FMZ,self.FMX))
+        self.stack = np.full(shape=(self.FMX*self.FMY*self.FMZ*T),fill_value=None)
 
-        self.stack = [None for _ in range(self.FMX*self.FMY*self.FMZ*T)]
         self.stacksize = 0
 
-        self.weights[self.Air_i] = 10
-        self.weights[self.Dirt_i] = 1
+        # self.weights[self.Air_i] = 10
+        # self.weights[self.Dirt_i] = 1
         # Calculate run time
         end_time = time()
         run_time = end_time - begin_time
@@ -179,6 +219,9 @@ class WFC:
 
     def Ban(self,i,t):
         x,y,z = i
+        if np.sum(self.wave[y][z][x])<=1:
+            print(i)
+            return
         #print("Ban (%s,%s)" %(i,t))
         self.wave[y][z][x][t] = False
         comp = self.compatible[y][z][x][t]
@@ -205,19 +248,21 @@ class WFC:
             for d in range(6):
                 dx,dy,dz = self.DX[d],self.DY[d],self.DZ[d]
                 x2,y2,z2 = x1+dx,y1+dy,z1+dz
-                if self.OnBoundary(x2,y2,z2):
-                    continue
+                # if self.OnBoundary(x2,y2,z2):
+                #     continue
                 if x2 < 0: 
                     x2 += self.FMX
                 elif x2 >= self.FMX: 
                     x2 -= self.FMX
                 if y2 < 0: 
+                    continue
                     y2 += self.FMY
-                elif y2 >= self.FMY: 
+                elif y2 >= self.FMY:
+                    continue 
                     y2 -= self.FMY
                 if z2 < 0 :
                     z2 += self.FMZ
-                elif y2 >= self.FMZ:
+                elif z2 >= self.FMZ:
                     z2 -= self.FMZ
 
                 i2 = (x2,y2,z2)
@@ -239,7 +284,8 @@ class WFC:
                         #             for _x in range(self.N):
                         #                 self.level.setBlock(_x+self.Vx+x2,_y+self.Vy+y2,_z+z2+self.Vz,self.IDtoName[pt[_y][_z][_x]])
                         #     self.level.flush()
-                        self.Ban(i2,t2)
+                        if self.wave[y2][z2][x2][t2] :
+                            self.Ban(i2,t2)
 
     def Observe(self):
         obsmin = 1E+3
@@ -249,8 +295,8 @@ class WFC:
             for z in range(self.FMZ):
                 for x in range(self.FMX):
                     
-                    if self.OnBoundary(x,y,z):
-                        continue
+                    # if self.OnBoundary(x,y,z):
+                    #     continue
                     amount = self.sumsOfOnes[y][z][x]
                     if amount == 0:
                         return False
@@ -295,31 +341,48 @@ class WFC:
         return None    
 
     def Clear(self):
+        self.wave = np.full(shape=(self.FMY,self.FMZ,self.FMX,self.T),fill_value=True)
+        self.sumsOfOnes = np.full(shape=(self.FMY,self.FMZ,self.FMX),fill_value=len(self.weights))
+        self.sumsOfWeights = np.full(shape=(self.FMY,self.FMZ,self.FMX),fill_value=self.sumOfWeights)
+        self.sumsOfWeightLogWeights = np.full(shape=(self.FMY,self.FMZ,self.FMX),fill_value=self.sumOfWeightLogWeights)
+        self.entropies = np.full(shape=(self.FMY,self.FMZ,self.FMX),fill_value=self.startingEntropy)
         for y in range(self.FMY):
-               for z in range(self.FMZ):
-                    for x in range(self.FMX):
-                        for t in range(self.T):
-                            self.wave[y][z][x][t] = True
-                            for d in range(6):
-                                self.compatible[y][z][x][t][d] = len(self.propagator[self.opposite[d]][t])
-                    
-                        self.sumsOfOnes[y][z][x] = len(self.weights)
-                        self.sumsOfWeights[y][z][x] = self.sumOfWeights
-                        self.sumsOfWeightLogWeights[y][z][x] = self.sumOfWeightLogWeights
-                        self.entropies[y][z][x] = self.startingEntropy
+            for z in range(self.FMZ):
+                for x in range(self.FMX):
+                    for t in range(self.T):
+                        # self.wave[y][z][x][t] = True
+                        for d in range(6):
+                            self.compatible[y][z][x][t][d] = len(self.propagator[self.opposite[d]][t])
+                
+                    # self.sumsOfOnes[y][z][x] = len(self.weights)
+                    # self.sumsOfWeights[y][z][x] = self.sumOfWeights
+                    # self.sumsOfWeightLogWeights[y][z][x] = self.sumOfWeightLogWeights
+                    # self.entropies[y][z][x] = self.startingEntropy
 
         for x in range(self.FMX):
             for z in range(self.FMZ):
                 for t in range(self.T):
                     if t!=self.Dirt_i:
-                        self.Ban((x,0,z),t)
-                for y in range(1,self.FMY):
-                    self.Ban((x,y,z),self.Dirt_i)
-        self.Propagate()
+                        if self.wave[0][z][x][t]:
+                            self.Ban((x,0,z),t)
 
+                for y in range(2,self.FMY):
+                    if self.wave[y][z][x][self.Dirt_i]:
+                        self.Ban((x,y,z),self.Dirt_i)
+                    if (x ==0 or (z == 0 or z == self.FMZ-1)) or (x==self.FMX or (z==0 or z==self.FMZ-1)):
+                        # print((x,y,z))
+
+                        for t in range(self.T):
+                            if t!=self.Air_i:
+                                if self.wave[y][z][x][t]:
+                                    self.Ban((x,y,z),t)
+        print("BAN")
+        self.Propagate()
+        print("clear")
     def run(self,level = None,visualize=False):
         begin_time = time()
         print("-------------------\nrunning wfc")
+        self.level = level
         # visualize init
         self.Vflag = False
         if visualize == True:
@@ -357,6 +420,9 @@ class WFC:
                 self.process_bar(1,start_str='',end_str='100%', total_length=15)
                 if self.Vflag == True:
                     self.preview()
+                #Calculate final wave
+                self.finalwave = self.wave[1:self.FMY-1,1:self.FMZ-1,1:self.FMX-1,0:self.T]
+                print(self.finalwave.shape)
                 # Calculate run time
                 end_time = time()
                 run_time = end_time - begin_time
@@ -383,8 +449,25 @@ class WFC:
                                     for z in range(self.Pstep):
                                         for x in range(self.Pstep):
                                             self.level.setBlock(_x*self.Pstep+self.Vx+x,_y*self.Pstep+self.Vy+y,_z*self.Pstep+z+self.Vz,self.IDtoName[p[y][z][x]])
+        self.level.flush()
                                 
-
+    def setBuilding(self,xs,ys,zs):
+        # finalwave = np.full((self.FMY-2,self.FMZ-2,self.FMX-2,self.T),False)
+        
+        for _y in range(self.FMY-2):
+            for _z in range(self.FMZ-2):
+                for _x in range(self.FMX-2):
+                    if np.sum(self.finalwave[_y][_z][_x])==1:
+                        for t in range(self.T):
+                            if self.finalwave[_y][_z][_x][t]==True:
+                                p = self.PList[t].blocks
+                                for y in range(self.Pstep):
+                                    for z in range(self.Pstep):
+                                        for x in range(self.Pstep):
+                                            self.level.setBlock(_x*self.Pstep+xs+x,_y*self.Pstep+ys+y,_z*self.Pstep+z+zs,self.IDtoName[p[y+1][z+1][x+1]])
+        # for y in range(self.FMY-2):
+        #     for z in range(self.FMZ-2):
+        #         for 
     def process_bar(self,percent, start_str='', end_str='', total_length=0):
         bar = ''.join(["\033[31m%s\033[0m"%'▋▋'] * int(percent * total_length)) + ''
         bar = '\r' + start_str + bar.ljust(total_length) + ' {:0>4.1f}%|'.format(percent*100) + end_str
@@ -424,19 +507,28 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    bd = buildingData(level,filename="test.txt")
-    bdData = bd.getBuildingData()
-    wfc = WFC(20,20,20,bdData)
-    r = wfc.run(level=level,visualize=True)
-    print(r)
+    # bd = buildingData(level,filename="t_r1.txt")
+    # bdData = bd.getBuildingData()
+    # wfc = WFC(20,20,20,bdData,5,1)
+
+    from Prototypes import Prototypes
+    prototypes = Prototypes(level=level)
+    bd =prototypes.read("prototypes_27.txt")
+    wfc = WFC(10,10,10,bd,AUTO=0)
+    r=False
+    while r==False:
+        r = wfc.run(level=level,visualize=False)
+        print(r)
+    
+    wfc.setBuilding(-463,65,-217)
     # prototypes = wfc.getPrototypes(level)
-    # prototypes.show(377,4,600)
+    # prototypes.show(268,4,216,num=20)
     # # n =0
     
     
     level.flush()
-    import time
+    # import time
 
-    time.sleep(10)
-    print("undo")
-    level.undo()
+    # time.sleep(20)
+    # print("undo")
+    # level.undo()

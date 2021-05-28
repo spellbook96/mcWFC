@@ -73,6 +73,7 @@ class buildingData:
             _x = int(data[0])
             _y = int(data[1])
             _z = int(data[2])
+            # self.level.setBlock(_x+x, _y+y, _z+z, data[3])
             self.level.setBlock(_x+x, _y+y, _z+z, data[3])
             #print("setBlock(%s,%s,%s,%s)" % (_x+x,_y+y,_z+z,data[3]))
 
@@ -151,14 +152,29 @@ if __name__ == "__main__":
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
 
-    # writeData(level, (-95,65,-312), (-42,136,-224), filename="palace.txt")
-    b = buildingData(level,"t_r1.txt")
-    b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
-    # b = buildingData(level)
-    # b.catch((203,1,530),(221,17,546),"t_r1.txt")
-    # b.build(152,4,202)
-    import time
 
-    time.sleep(20)
-    print("undo")
-    level.undo()
+# write building //b.catch(startpos,endpos,filename)
+
+    # b = buildingData(level)
+    # b.catch((6,4,0),(148,8,4),"filename.txt")
+    # # b.build(26,4,22)  //test
+
+# build // buildingData(level,filename)   b.build(x,y,z)
+
+    # b = buildingData(level,"filename.txt")
+    # b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
+
+    # import time
+
+    # time.sleep(10)
+    # print("undo")
+    # level.undo()
+
+# test
+
+    # b = buildingData(level,"house.txt")
+    # b.build(x_center,level.getHeightAt(x_center,z_center),z_center)
+    # import time
+    # time.sleep(10)
+    # print("undo")
+    # level.undo()
