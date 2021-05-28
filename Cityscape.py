@@ -5,7 +5,7 @@ from building.store import *
 from building.field_builder import *
 
 
-class Cityspace:
+class Cityscape:
 
     def __init__(self, level, road_width, start_x, start_y, start_z, door, tree_ID, tree_data, wood_ID, wood_data,roof_ID):
         self.level = level
