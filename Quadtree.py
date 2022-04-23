@@ -173,7 +173,7 @@ class Quadtree:
 
 if __name__ == "__main__":
     from Level import *
-    level = Level(USE_BATCHING=2000)
+    level = Level(USE_BATCHING=2000,hm=False)
 
     area = level.getBuildArea()
     x_start = area[0]
@@ -184,7 +184,7 @@ if __name__ == "__main__":
     z_end = z_start + z_size
     x_center = int((x_start + x_end) /2)
     z_center = int((z_start + z_end) /2)
-    level.calculate_Quadtree(mgw =2,mfw=10,qms = 40,qi=5)
+    level.calculate_Quadtree(mgw =1,mfw=1,qms = 8,qi=1)
     qm = level.getQuadtree()
     level.plotMap()
     # for z in range(z_size):

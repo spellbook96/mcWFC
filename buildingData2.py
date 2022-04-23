@@ -13,39 +13,49 @@ def writeData(level, sPos, ePos, filename="sample.txt"):
     print("Start postion =" +str(s)+ " End postion =" +str(e))
     cnt = 0
     bcnt =0
+    space =100
     with open(fn, 'w') as f:
-        for x in range(s[0], e[0]+1):
-            for y in range(s[1], e[1]+1):
-                for z in range(s[2], e[2]+1):
+        x_size = e[0]-s[0]+1
+        y_size = e[1]-s[1]+1
+        z_size = e[2]-s[2]+1
+        f.write("%s %s %s\n" % (x_size,y_size,z_size))
+        for y in range(e[1],s[1]-1,-1):
+            for z in range(s[2], e[2]+1):
+                for x in range(s[0], e[0]+1):
                     block = level.getBlockCompoundAt(x, y, z)
                     if block == None:
-                        f.write(str(x-s[0])+" "+str(y-s[1])+" "+str(z-s[2]) + " ")
-                        f.write("minecraft:air\n")
+                        f.write("air[]")
+                        for n in range(space-5):
+                            f.write(" ")
                         bcnt+=1
                         continue
                     try:
                         name = str(block["Name"])
                     except:
-                        print(str(x-s[0])+" "+str(y-s[1])+" "+str(z-s[2]))
                         print("error: can not write (%s,%s,%s) block" %
                               (x, y, z))
                         cnt += 1
                         continue
 
-                    f.write(str(x-s[0])+" "+str(y-s[1])+" "+str(z-s[2])+ " ")
-                    f.write(name)
+                    cell=name
 
                     try:
                         tmp = block["Properties"]
-                        f.write("[")
+                        cell+="["
                         for tag in block["Properties"]:
-                            f.write(tag+"="+str(block["Properties"][tag])+",")
-                        f.write("]")
+                            cell= cell+tag+"="+str(block["Properties"][tag])+","
+                        cell+="]"
                         bcnt +=1
                     except:
-                        pass
+                        cell+="[]"
 
-                    f.write("\n")
+                    for n in range(space-len(cell)):
+                        cell +=" "
+                    
+                    cell = cell.replace("minecraft:","")
+                    f.write(cell)
+                f.write("\n")
+            f.write("\n")
     #print(str(cnt)+" error")
     print("total %d blocks" % bcnt)
 
@@ -157,7 +167,7 @@ if __name__ == "__main__":
 
     # print(x_start)
     b = buildingData(level)
-    b.catch((275,4,100),(323,6,148),"fence_base1.txt")
+    b.catch((-233, 4, 19),(-219, 8, 33),"wfc_15x15_1.txt")
     # b.build(26,4,22)  //test
 
 # build // buildingData(level,filename)   b.build(x,y,z)

@@ -71,4 +71,4 @@ x_end = x_start + x_size
 z_end = z_start + z_size
 x_center = int((x_start + x_end) /2)
 z_center = int((z_start + z_end) /2)
-makePrototypes(level,pos=(26,4,22),N=5,PStep=4,length=27,fn="prototypes_27.txt")
+makePrototypes(level,pos=(644,4,584),N=5,PStep=4,length=28,fn="prototypes_test.txt")

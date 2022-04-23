@@ -1,59 +1,184 @@
 {
-    
-    "2,0" : "minecraft:grass",
-    "85,0" : "minecraft:oak_fence",
+	"0,0" : "minecraft:air",
+	
+	"1,0" : "minecraft:stone",
+	"1,6" : "minecraft:polished_andesite",
+	
+	"2,0" : "minecraft:grass",
+	
+	"3,0" : "minecraft:dirt",
+	
+	"4,0" : "minecraft:cobblestone",
+	
+	"5,0" : "minecraft:oak_planks",
+	"5,1" : "minecraft:spruce_planks",
+	"5,2" : "minecraft:birch_planks",
+	"5,3" : "minecraft:jungle_planks",
+	"5,4" : "minecraft:acacia_planks",
+	"5,5" : "minecraft:dark_oak_planks",
+	
+	"9,0" : "minecraft:water",
+	
+	"12,0" : "minecraft:sand",
+	"12,1" : "minecraft:red_sand",
+	
+	"17,0" : "minecraft:oak_log[axis=y]",
+	"17,1" : "minecraft:spruce_log[axis=y]",
+	"17,2" : "minecraft:birch_log[axis=y]",
+	"17,3" : "minecraft:jungle_log[axis=y]",
+	"162,0" : "minecraft:acacia_log[axis=y]",
+	"162,1" : "minecraft:dark_oak_log[axis=y]",
+	
+	"24,0":"minecraft:sandstone",
+	
+	"38,0":"minecraft:poppy",
+	"38,1":"minecraft:blue_orchid",
+	"38,2":"minecraft:allium",
+	"38,3":"minecraft:azure_bluet",
+	"38,4":"minecraft:red_tulip",
+	"38,5":"minecraft:orange_tulip",
+	"38,6":"minecraft:white_tulip",
+	"38,7":"minecraft:pink_tulip",
+	"38,8":"minecraft:oxeye_daisy",
+	
+	"41,0":"minecraft:gold_block",
+	
+	"43,0":"minecraft:stone_slab[type=double]",
+	"43,3":"minecraft:cobblestone_slab[type=double]",
+	"43,5":"minecraft:stone_brick_slab[type=double]",
+	
+	"44,3":"minecraft:cobblestone_slab[type=bottom]",
+	"44,5":"minecraft:stone_brick_slab[type=bottom]",
+	"44,10":"minecraft:oak_slab[type=top]",
+	"44,13":"minecraft:stone_brick_slab[type=top]",
+	
+	"47,0" : "minecraft:bookshelf",
+	
+	"50,1" : "minecraft:torch[facing=east]",
+	"50,2" : "minecraft:torch[facing=west]",
+	"50,3" : "minecraft:torch[facing=south]",
+	"50,4" : "minecraft:torch[facing=north]",
+	"50,5" : "minecraft:torch",
+	
+	"53,0" : "minecraft:oak_stairs[facing=east,half=bottom]",
+	"53,1" : "minecraft:oak_stairs[facing=west,half=bottom]",
+	"53,4" : "minecraft:oak_stairs[facing=east,half=top]",
+	"53,5" : "minecraft:oak_stairs[facing=west,half=top]",
+	"53,6" : "minecraft:oak_stairs[facing=south,half=top]",
+	"53,7" : "minecraft:oak_stairs[facing=north,half=top]",
+	
+	
+	"54,0" : "minecraft:chest[facing=west]",
+	"54,2" : "minecraft:chest[facing=north]",
+	"54,3" : "minecraft:chest[facing=south]",
+	"54,4" : "minecraft:chest[facing=west]",
+	"54,5" : "minecraft:chest[facing=east]",
+	
+	"58,0" : "minecraft:crafting_table",
+	
+	"59,7" : "minecraft:wheat[age=7]",
+	"60,7" : "minecraft:farmland[moisture=7]",
+	
+	"61,2" : "minecraft:furnace[facing=north]",
+	"61,3" : "minecraft:furnace[facing=south]",
+	"61,4" : "minecraft:furnace[facing=west]",
+	"61,5" : "minecraft:furnace[facing=east]",
+	
+	"76,5" : "minecraft:redstone_torch[lit=true]",
+	
+	"82,8" : "minecraft:clay",
+	
+	"83,0" : "minecraft:sugar_cane[age=0]",
+	
+	"85,0" : "minecraft:oak_fence",
+	"85,1" : "minecraft:spruce_fence",
+	"85,2" : "minecraft:birch_fence",
+	"85,3" : "minecraft:jungle_fence",
+	"85,4" : "minecraft:acasia_fence",
+	"85,5" : "minecraft:dark_oak_fence",
 
-    "60,7" : "minecraft:farmland[moisture=7]",
-    "141,7" : "minecraft:carrots[age=7]",
-    "142,7" : "minecraft:potatoes[age=7]",
-    "59,7" : "minecraft:wheat[age=7]",
-    "0,0" : "air",
-    "9,0" : "minecraft:water",
-    "12,0" : "minecraft:sand",
-    "83,0" : "sugar_cane[age=7]",
-    "5,2" : "birch_planks",
-    "5,0" : "birch_planks",
-    "54,5" : "minecraft:chest",
-    "54,0" :"minecraft:chest",
-    
-    "180,1" : "minecraft:red_sandstone_stairs",
-    "180,0" : "minecraft:red_sandstone_stairs",
-
-    "196,0" : "minecraft:acacia_door",
-    "196,8" : "minecraft:acacia_door",
-    "196,7" : "minecraft:acacia_door",
-    "196,10" :"minecraft:acacia_door",
-
-    "4,0" : "minecraft:cobblestone",
-    "24,0" :"minecraft:sandstone",
-
-    "50,2" : "minecraft:torch",
-    "50,1" :"minecraft:torch",
-
-    "58,0" : "minecraft:crafting_table",
-
-    "47,0" : "minecraft:bookshelf",
-    "126,0" :"minecraft:oak_slab",
-    "1,0" : "minecraft:stone",
-    "89,0" : "minecraft:glowstone",
-    "53,4" : "minecraft:oak_stairs",
-    "82,8" :"minecraft:clay",
-
-    "182,0" :"minecraft:red_sandstone_slab",
-    "182,8" :"minecraft:red_sandstone_slab",
-    "179,0" : "minecraft:red_sandstone",
-    "126,8" : "minecraft:oak_slab",
-
-
-    "38,0":"poppy",
-    "38,1":"blue_orchid",
-    "38,2":"allium",
-    "38,3":"azure_bluet",
-    "38,4":"red_tulip",
-    "38,5":"orange_tulip",
-    "38,6":"white_tulip",
-    "38,7":"pink_tulip",
-    "38,8":"oxeye_daisy"
-
+	"89,0" : "minecraft:glowstone",
+	
+	"91,0" : "minecraft:jack_o_lantern",
+	"91,1" : "minecraft:jack_o_lantern",
+	"91,2" : "minecraft:jack_o_lantern",
+	"91,3" : "minecraft:jack_o_lantern",
+	"91,4" : "minecraft:jack_o_lantern",
+	"91,5" : "minecraft:jack_o_lantern",
+	
+	"95,11" : "minecraft:blue_stained_glass",
+	
+	"96,0" : "minecraft:oak_trapdoor[facing=north,half=bottom,open=false]",
+	"96,4" : "minecraft:oak_trapdoor[facing=north,half=bottom,open=true]",
+	"96,5" : "minecraft:oak_trapdoor[facing=south,half=bottom,open=true]",
+	"96,6" : "minecraft:oak_trapdoor[facing=west,half=bottom,open=true]",
+	"96,7" : "minecraft:oak_trapdoor[facing=east,half=bottom,open=true]",
+	
+	"98,0" : "minecraft:stone_bricks",
+	
+	"109,0" : "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+	"109,1" : "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+	"109,2" : "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+	"109,3" : "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+	"109,4" : "minecraft:stone_brick_stairs[facing=east,half=top]",
+	"109,5" : "minecraft:stone_brick_stairs[facing=west,half=top]",
+	"109,6" : "minecraft:stone_brick_stairs[facing=south,half=top]",
+	"109,7" : "minecraft:stone_brick_stairs[facing=north,half=top]",
+	
+	"113,0" : "minecraft:nether_brick_fence",
+	
+	"114,4" : "minecraft:nether_brick_stairs[facing=east,half=top]",
+	"114,5" : "minecraft:nether_brick_stairs[facing=west,half=top]",
+	"114,6" : "minecraft:nether_brick_stairs[facing=south,half=top]",
+	"114,7" : "minecraft:nether_brick_stairs[facing=north,half=top]",
+	
+	"125,1" : "minecraft:spruce_slab[type=double]",
+	
+	"126,0" : "minecraft:oak_slab[type=bottom]",
+	"126,1" : "minecraft:spruce_slab[type=bottom]",
+    "126,8" : "minecraft:oak_slab[type=top]",
+	
+	"134,0" : "minecraft:spruce_stairs[facing=east,half=bottom]",
+	"134,1" : "minecraft:spruce_stairs[facing=west,half=bottom]",
+	"134,2" : "minecraft:spruce_stairs[facing=south,half=bottom]",
+	"134,3" : "minecraft:spruce_stairs[facing=north,half=bottom]",
+	"134,4" : "minecraft:spruce_stairs[facing=east,half=top]",
+	"134,5" : "minecraft:spruce_stairs[facing=west,half=top]",
+	"134,6" : "minecraft:spruce_stairs[facing=south,half=top]",
+	"134,7" : "minecraft:spruce_stairs[facing=north,half=top]",
+	
+	"139,0" : "minecraft:cobblestone_wall",
+	
+	"141,7" : "minecraft:carrots[age=7]",
+	"142,7" : "minecraft:potatoes[age=7]",
+	
+	"145,0" : "minecraft:anvil[facing=south]",
+	
+	"164,4" : "minecraft:dark_oak_stairs[facing=east,half=top]",
+	"164,5" : "minecraft:dark_oak_stairs[facing=west,half=top]",
+	"164,6" : "minecraft:dark_oak_stairs[facing=south,half=top]",
+	"164,7" : "minecraft:dark_oak_stairs[facing=north,half=top]",
+	
+	"179,0" : "minecraft:red_sandstone",
+	
+	"180,0" : "minecraft:red_sandstone_stairs[facing=east,half=bottom]",
+	"180,1" : "minecraft:red_sandstone_stairs[facing=west,half=bottom]",
+	
+	"182,0" :"minecraft:red_sandstone_slab[type=bottom]",
+	"182,8" :"minecraft:red_sandstone_slab[type=top]",
+	
+	"189,0" :"minecraft:birch_fence",
+	
+	"191,0" :"minecraft:dark_oak_fence",
+	"192,0" :"minecraft:acacia_fence",
+	
+	"196,8" : "minecraft:acacia_door[facing=east,half=upper,hinge=left,open=false,powered=false]",
+	"196,0" : "minecraft:acacia_door[facing=east,half=lower,hinge=left,open=false,powered=false]",
+	
+	"196,10" :"minecraft:acacia_door[facing=north,half=upper,hinge=left,open=true,powered=true]",
+	"196,7" : "minecraft:acacia_door[facing=north,half=lower,hinge=left,open=true,powered=true]",
+	
+	"251,14" :"minecraft:red_concrete",
+	"251,15" :"minecraft:black_concrete"
 
 }

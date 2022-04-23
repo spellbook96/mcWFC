@@ -131,3 +131,5 @@ class Cityscape:
                     f = field(lv,x,y,z,4,lw,4,0)
                     f.build()
                 z += lw+gap[i]
+
+        self.level.flush()

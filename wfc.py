@@ -145,10 +145,10 @@ class WFC:
                         except:
                             pass
 
-        print("new limit")
-        for t in range(T):
-            for d in range(6):
-                print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
+        # print("new limit")
+        # for t in range(T):
+        #     for d in range(6):
+        #         print("propagator for Pattern%s  direct%s is : %s" %(t,d,self.propagator[d][t]))
 
         # self.wave = [[[[False for _ in range(T)]for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
         # self.compatible = [[[[[0 for _ in range(6)]for _ in range(T)] for _ in range(self.FMX)]for _ in range(self.FMZ)]for _ in range(self.FMY)]
@@ -220,7 +220,7 @@ class WFC:
     def Ban(self,i,t):
         x,y,z = i
         if np.sum(self.wave[y][z][x])<=1:
-            print(i)
+            # print(i)
             return
         #print("Ban (%s,%s)" %(i,t))
         self.wave[y][z][x][t] = False
@@ -376,6 +376,10 @@ class WFC:
                             if t!=self.Air_i:
                                 if self.wave[y][z][x][t]:
                                     self.Ban((x,y,z),t)
+        # for t in range(self.T):
+        #             if t!=60:
+        #                 if self.wave[3][4][4][t]:
+        #                     self.Ban((4,3,4),t)
         print("BAN")
         self.Propagate()
         print("clear")
@@ -514,21 +518,55 @@ if __name__ == "__main__":
     from Prototypes import Prototypes
     prototypes = Prototypes(level=level)
     bd =prototypes.read("prototypes_27.txt")
-    wfc = WFC(10,10,10,bd,AUTO=0)
-    r=False
-    while r==False:
-        r = wfc.run(level=level,visualize=False)
-        print(r)
-    
-    wfc.setBuilding(-463,65,-217)
+    wfc = WFC(5,10,5,bd,AUTO=0)
+    bd =prototypes.read("prototypes_stone_27.txt")
+    wfc2 = WFC(6,10,6,bd,AUTO=0)
+    bd= prototypes.read("prototypes_27_white.txt")
+    wfc3 = WFC(7,10,7,bd,AUTO=0)
+    # r=False
+    # while r==False:
+    #     r = wfc.run(level=level,visualize=False)
+    #     print(r)
+    # r=False
+    # while r==False:
+    #     r = wfc2.run(level=level,visualize=False)
+    #     print(r)
+    # r=False   
+    # while r==False:
+    #     r = wfc3.run(level=level,visualize=False)
+    #     print(r)
+    # wfc.setBuilding(x_start,4,z_start)
+    # wfc2.setBuilding(x_start+35,4,z_start)
+    # wfc3.setBuilding(x_start+70,4,z_start)
+    for i in range(5):
+        for j in range(5):
+            flag = random.choice([0,1,2])
+            if flag==0:
+                r=False
+                while r==False:
+                    r = wfc.run(level=level,visualize=False)
+                    print(r)
+                wfc.setBuilding(x_start+35*i,4,z_start+35*j)
+            if flag==1:
+                r=False
+                while r==False:
+                    r = wfc2.run(level=level,visualize=False)
+                    print(r)
+                wfc2.setBuilding(x_start+35*i,4,z_start+35*j)
+            if flag==2:
+                r=False
+                while r==False:
+                    r = wfc3.run(level=level,visualize=False)
+                    print(r)
+                wfc3.setBuilding(x_start+35*i,4,z_start+35*j)
     # prototypes = wfc.getPrototypes(level)
     # prototypes.show(268,4,216,num=20)
-    # # n =0
+    # n =0
     
     
     level.flush()
-    # import time
+    import time
 
-    # time.sleep(20)
-    # print("undo")
-    # level.undo()
+    time.sleep(20)
+    print("undo")
+    level.undo()

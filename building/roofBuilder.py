@@ -23,8 +23,8 @@ class RoofBuilder:
         self.width = 9
 
     def build(self):
-        x = self.start_x
-        z = self.start_z
+        x = int(self.start_x)
+        z = int(self.start_z)
         s = self.surface
         w = self.width
         d = self.depth

@@ -41,6 +41,9 @@ class Prototypes:
             self.PList.append(prototype)
             self.limit = []
             self.limit.append(len(self.PList)-1)
+            if i == 18 or i==27:
+                # print("階段:"+str(len(self.PList)))
+                continue
             for k in range(3):
                 flag=1
                 temp=self.rotate(prototype.blocks[0])
@@ -62,8 +65,8 @@ class Prototypes:
             if len(self.limit) == 4:
                 self.limitList.append(self.limit)
 
-        print(self.limitList)
-        print("retate: %d" % rc)
+        # print(self.limitList)
+        # print("retate: %d" % rc)
         # print(PList)
         # print(len(PList))
         # print(IDtoName)
@@ -86,7 +89,6 @@ class Prototypes:
         if num > self.n:
             print("n must less than %d" % self.n)
             return False
-        
         space = 0
         for prototype in self.PList[:num]:
             for _y in range(self.size):
@@ -120,7 +122,7 @@ class Prototype:
             self.N =N
             self.isFloor = False
 
-        
+
 if __name__ == "__main__":
     from Level import *
     level = Level(USE_BATCHING=2000)
@@ -135,5 +137,5 @@ if __name__ == "__main__":
     z_center = int((z_start + z_end) /2)
 
     prototypes = Prototypes(level=level)
-    prototypes.read("prototypes.txt")
+    prototypes.read("prototypes_new.txt")
     # prototypes.show(3,4,7,num=30,undo=120)

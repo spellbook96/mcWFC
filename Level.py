@@ -28,20 +28,20 @@ class Level:
         begin_time = time()
         self.area = (0, 0, 128, 128)  # default build area
         self.USE_BATCHING = USE_BATCHING
+        self.hm=hm
         buildArea= interfaceUtils.requestBuildArea()
         if buildArea != -1:
-            x1 = buildArea["xFrom"]
-            z1 = buildArea["zFrom"]
-            x2 = buildArea["xTo"]
-            z2 = buildArea["zTo"]
-            # print(buildArea)
-            self.area = (x1, z1, x2 - x1, z2 - z1)
-
+                x1 = buildArea["xFrom"]
+                z1 = buildArea["zFrom"]
+                x2 = buildArea["xTo"]
+                z2 = buildArea["zTo"]
+                # print(buildArea)
+                self.area = (x1, z1, x2 - x1, z2 - z1)
         print("Build area is at position %s, %s with size %s, %s" % self.area)
         self.worldSlice = WorldSlice(self.area)
-        # if hm:
-        #     self.calculate_Quadtree(self)
-
+        if hm:
+            self.calculate_Quadtree()
+            
         self.undo_flag = True
         self.undo_blocks = []
         self.tmp = []
@@ -55,6 +55,17 @@ class Level:
         print("runtime: %.2f s" % run_time)
 
     def calculate_Quadtree(self,mgw =1,mfw=1,qms = 10,qi=2):
+        if not self.hm:
+            buildArea= interfaceUtils.requestBuildArea()
+            if buildArea != -1:
+                x1 = buildArea["xFrom"]
+                z1 = buildArea["zFrom"]
+                x2 = buildArea["xTo"]
+                z2 = buildArea["zTo"]
+                # print(buildArea)
+                self.area = (x1, z1, x2 - x1, z2 - z1)
+            
+            self.worldSlice = WorldSlice(self.area)
         self.heightmap = mapUtils.calcGoodHeightmap(self.worldSlice)
         self.calculate_gradient()
         self.Q = Quadtree(self,mgw,mfw,qms,qi)
@@ -106,7 +117,7 @@ class Level:
         else:
             interfaceUtils.setBlock(x, y, z, block)
 
-    def setBlockID(self, x, y, z, blockid, data=100):
+    def setBlockID(self, x, y, z, blockid, data=0):
         
         bid = str(blockid) + "," + str(data)
         if bid in self.id_dict:
@@ -165,12 +176,13 @@ if __name__ == "__main__":
     # f.build()
     from Cityscape import *
 
-    c = Cityscape(level, 50, 154, 4, 74, 1, 24, 0, 5, 2, (180, 182, 0, 179, 0))
+    c = Cityscape(level, 50, 216, 4, 80, 1, 24, 0, 5, 2, (180, 182, 0, 179, 0))
     c.build()
     level.print_blockID()
+    
     import time
 
-    time.sleep(60)
+    time.sleep(20)
     print("undo")
     level.undo()
 

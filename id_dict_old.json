@@ -1,0 +1,59 @@
+{
+    
+    "2,0" : "minecraft:grass",
+    "85,0" : "minecraft:oak_fence",
+
+    "60,7" : "minecraft:farmland[moisture=7]",
+    "141,7" : "minecraft:carrots[age=7]",
+    "142,7" : "minecraft:potatoes[age=7]",
+    "59,7" : "minecraft:wheat[age=7]",
+    "0,0" : "air",
+    "9,0" : "minecraft:water",
+    "12,0" : "minecraft:sand",
+    "83,0" : "sugar_cane[age=7]",
+    "5,2" : "birch_planks",
+    "5,0" : "birch_planks",
+    "54,5" : "minecraft:chest",
+    "54,0" :"minecraft:chest",
+    
+    "180,1" : "minecraft:red_sandstone_stairs",
+    "180,0" : "minecraft:red_sandstone_stairs",
+
+    "196,0" : "minecraft:acacia_door",
+    "196,8" : "minecraft:acacia_door",
+    "196,7" : "minecraft:acacia_door",
+    "196,10" :"minecraft:acacia_door",
+
+    "4,0" : "minecraft:cobblestone",
+    "24,0" :"minecraft:sandstone",
+
+    "50,2" : "minecraft:torch",
+    "50,1" :"minecraft:torch",
+
+    "58,0" : "minecraft:crafting_table",
+
+    "47,0" : "minecraft:bookshelf",
+    "126,0" :"minecraft:oak_slab",
+    "1,0" : "minecraft:stone",
+    "89,0" : "minecraft:glowstone",
+    "53,4" : "minecraft:oak_stairs",
+    "82,8" :"minecraft:clay",
+
+    "182,0" :"minecraft:red_sandstone_slab",
+    "182,8" :"minecraft:red_sandstone_slab",
+    "179,0" : "minecraft:red_sandstone",
+    "126,8" : "minecraft:oak_slab",
+
+
+    "38,0":"poppy",
+    "38,1":"blue_orchid",
+    "38,2":"allium",
+    "38,3":"azure_bluet",
+    "38,4":"red_tulip",
+    "38,5":"orange_tulip",
+    "38,6":"white_tulip",
+    "38,7":"pink_tulip",
+    "38,8":"oxeye_daisy"
+
+
+}
