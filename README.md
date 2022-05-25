@@ -5,3 +5,23 @@ buildingData.py 建物の読み取りと書込み
 Cityspace ICE_JIT
 id_dict.json　元IDの変換辞書(訂正必要)
 BlockID.txt 辞書に書いてないブロック
+
+
+
+建物のtiles
+
+![image-20220525145227399](https://img.yuliannas.com/i/202205251452502.png)
+
+連結ルート自動生成
+
+![image-20220525145259938](https://img.yuliannas.com/i/202205251452983.png)
+
+
+
+結果：
+
+![image-20220525145320115](https://img.yuliannas.com/i/202205251453180.png)
+
+![image-20220525145325882](https://img.yuliannas.com/i/202205251453941.png)
+
+![image-20220525145329570](https://img.yuliannas.com/i/202205251453644.png)
