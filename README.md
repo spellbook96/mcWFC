@@ -10,7 +10,7 @@
 
 - wfc.py patternによって建物を生成する
 
-建物のtiles
+一部建物のtiles　合計１５０以上　回転したtiles含む
 
 ![image-20220525145227399](https://img.yuliannas.com/i/202205251452502.png)
 
